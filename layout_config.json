@@ -1,0 +1,107 @@
+{
+    "grid_size": [
+        3,
+        3
+    ],
+    "sections": [
+        {
+            "type": "tokens",
+            "show": [
+                "logo",
+                "price",
+                "chart"
+            ],
+            "position": [
+                0,
+                0
+            ],
+            "tokens": [
+                "MIN",
+                "SNEK",
+                "IAG"
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "quote",
+            "position": [
+                0,
+                1
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                0,
+                2
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                1,
+                0
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                1,
+                1
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                1,
+                2
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                2,
+                0
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "clock",
+            "position": [
+                2,
+                1
+            ],
+            "font_size": 50,
+            "color": "white"
+        },
+        {
+            "type": "market_data",
+            "fields": [
+                "activeAddresses",
+                "dexVolume"
+            ],
+            "position": [
+                2,
+                2
+            ],
+            "font_size": 50,
+            "color": "white"
+        }
+    ],
+    "display_settings": {
+        "rotate_tokens": true,
+        "rotation_interval": 15000
+    }
+}

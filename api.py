@@ -7,12 +7,11 @@ HEADERS = {
     "x-api-key": API_KEY
 }
 
-def get_market_stats(quote_currency="ADA"):
+def get_market_stats(quote):
     """Retrieves aggregated market data"""
     params = {
-        "quote": quote_currency
+        "quote": quote
     }
-
     try:
         response = requests.get(BASE_URL_MARKET_STATS, headers=HEADERS, params=params)
         response.raise_for_status()
@@ -165,5 +164,59 @@ def get_token_price_chg(token_id, tf1, tf2, tf3):
         print("Antwort war:", response.text if "response" in locals() else "Keine Antwort verfügbar")
         return None
     
+def get_token_price_indicators(unit, intervall, items, indicator, length,smoothingFactor, fastLength, slowLength ,signalLength,stdMult, quote):
+    """Holt die Anzahl der Token Holder."""
+    headers = {
+        "x-api-key": API_KEY
+    }
+
+    params = {
+        "unit": unit,
+        "interval": intervall,
+        "items":items,
+        "indicator": indicator,
+        "smoothingFactor": length,
+        "fastLength": smoothingFactor,
+        "fastLength": fastLength,
+        "slowLength": slowLength,
+        "signalLength":signalLength,
+        "stdMult": stdMult,
+        "quote": quote
+    }
+    try:
+        response = requests.get(BASE_URL_TOKEN_CHG, headers=headers, params=params)
+        response.raise_for_status()
+        return response.json()
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Fehler beim Abrufen der Daten: {e}")
+        return None
+    except (KeyError, TypeError, ValueError) as e:
+        print(f" Fehler beim Parsen der JSON-Antwort: {e}")
+        print("Antwort war:", response.text if "response" in locals() else "Keine Antwort verfügbar")
+        return None
+    
+def get_token_trading_stats(unit, timeframe):
+    """Holt die Anzahl der Token Holder."""
+    headers = {
+        "x-api-key": API_KEY
+    }
+
+    params = {
+        "unit": unit,
+        "timeframe": timeframe
+    }
+    try:
+        response = requests.get(BASE_URL_TOKEN_CHG, headers=headers, params=params)
+        response.raise_for_status()
+        return response.json()
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Fehler beim Abrufen der Daten: {e}")
+        return None
+    except (KeyError, TypeError, ValueError) as e:
+        print(f" Fehler beim Parsen der JSON-Antwort: {e}")
+        print("Antwort war:", response.text if "response" in locals() else "Keine Antwort verfügbar")
+        return None
     
 

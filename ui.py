@@ -71,17 +71,49 @@ class TapMirrorUI(QWidget):
                     price_label.setAlignment(Qt.AlignVCenter)
                     if "price" in show_options:
                         token_hbox.addWidget(price_label)
-                        token_vbox.addLayout(token_hbox)  # Fügt Token-Preis und Logo hinzu
-
-                    # Chart-Widget (falls in "show" enthalten)
+                        token_vbox.addLayout(token_hbox) 
+                        
                     chart_widget = None
                     if "chart" in show_options:
                         chart_widget = ChartWidget(self)
                         chart_widget.setFixedSize(300, 150)
                     if chart_widget:
-                        token_hbox.addWidget(chart_widget)  # Fügt Chart unten hinzu
-                    # Speichert die UI-Elemente für spätere Updates
+                        token_hbox.addWidget(chart_widget) 
+                    # Saves 
                     token_widgets[ticker] = {"image": image_label, "price": price_label, "chart": chart_widget}
+
+                    # Token holder
+                    holder_label = QLabel(f"Loading...")
+                    holder_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                    holder_label.setAlignment(Qt.AlignVCenter)
+                    if "holders" in show_options:
+                        token_hbox.addWidget(holder_label)
+                        token_vbox.addLayout(token_hbox)  
+                    
+                    # Token changes
+                    change_label = QLabel(f"Loading...")
+                    change_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                    change_label.setAlignment(Qt.AlignVCenter)
+                    if "change"  in show_options:
+                        token_hbox.addWidget(change_label)
+                        token_vbox.addLayout(token_hbox)  
+
+                     # Token changes
+                    buyvol_label = QLabel(f"Loading...")
+                    buyvol_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                    buyvol_label.setAlignment(Qt.AlignVCenter)    
+                    if "buyvolume"  in show_options:
+                        token_hbox.addWidget(change_label)
+                        token_vbox.addLayout(token_hbox)  
+
+                     # Token sell volume
+                    sellvol_label = QLabel(f"Loading...")
+                    sellvol_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                    sellvol_label.setAlignment(Qt.AlignVCenter)    
+                    if "sellvalue"  in show_options:
+                        token_hbox.addWidget(change_label)
+                        token_vbox.addLayout(token_hbox)  
+
 
                 # Speichert die gesamte Token-Sektion
                 self.ui_elements[f"tokens_{row}_{col}"] = token_widgets
@@ -95,19 +127,24 @@ class TapMirrorUI(QWidget):
                 section_layout.addWidget(label)
 
             elif section["type"] == "market_data":
-                label = QLabel("Loading market data...")
-                label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
-                label.setAlignment(Qt.AlignCenter)
-                self.ui_elements[f"market_{row}_{col}"] = {"label": label, "fields": section["fields"]}
-                section_layout.addWidget(label)
-
-            elif section["type"] == "quote":
-                quote_label = QLabel()
+            # Erstelle ein leeres Label für die Quote, das oberhalb der Market-Daten angezeigt wird
+                quote_label = QLabel("")  # Leerer Text, wird später befüllt
                 quote_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
                 quote_label.setAlignment(Qt.AlignCenter)
-                # Speichere das Label, damit update_data() es später aktualisieren kann
                 self.ui_elements[f"quote_{row}_{col}"] = {"label": quote_label}
                 section_layout.addWidget(quote_label)
+
+                active_addr_label = QLabel("")  # Leerer Text, wird später befüllt
+                active_addr_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                active_addr_label.setAlignment(Qt.AlignCenter)
+                self.ui_elements[f"activeAddresses_{row}_{col}"] = {"label": active_addr_label}
+                section_layout.addWidget(active_addr_label)
+
+                dex_vol_label = QLabel("")  # Leerer Text, wird später befüllt
+                dex_vol_label.setStyleSheet(f"font-size: {section['font_size']}px; color: {section['color']};")
+                dex_vol_label.setAlignment(Qt.AlignCenter)
+                self.ui_elements[f"dexVolume_{row}_{col}"] = {"label": dex_vol_label}
+                section_layout.addWidget(dex_vol_label)
 
             section_frame.setLayout(section_layout)
             layout.addWidget(section_frame, row, col)
@@ -146,12 +183,16 @@ class TapMirrorUI(QWidget):
         # Update market data
         market_data = get_market_stats("ADA")
         for key, elements in self.ui_elements.items():
-            if key.startswith("market") and market_data:
-                label = elements.get("label")
-                fields = elements.get("fields", [])
-                if label and fields:
-                    text = "\n".join([f"{field}: {market_data.get(field, 'N/A')}" for field in fields])
-                    label.setText(text)
+            if key.startswith("activeAddresses") and market_data:
+                active_addr_label = elements.get("label")
+                active_addr   = market_data.get("activeAddresses")
+                active_addr_label.setText(f"Active Addr: {active_addr}")
+            if key.startswith("dexVolume") and market_data:
+                dex_vol_label = elements.get("label")
+                dex_vol   = market_data.get("dexVolume")
+                dex_vol_f = float(dex_vol)
+                dex_vol_millions = dex_vol_f / 1_000_000
+                dex_vol_label.setText(f"Dex Vol: {dex_vol_millions:.2f} Mio ADA")
 
         # Update quote data
         quote_data = get_quote_price("USD")

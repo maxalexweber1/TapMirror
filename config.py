@@ -22,6 +22,8 @@ TOKEN_MAPPING = {
     "NVL": "5b26e685cc5c9ad630bde3e3cd48c694436671f3d25df53777ca60ef4e564c"
 }
 
+PORTFOLIO_ADDRESS = "addr1qx9ezdwpn7402eauaty8su2wa6w2rcwdzn0e4g26z8m8mmawcx548yh5jcq0yugctgwe3s2x5r6wqwyav2hfxve7nnaqzmpysx"
+
 # Token Market Stats
 # Method: get_market_stats(quote): Example:  get_market_stats("ADA"):
 # Quote currency to use (ADA, USD, EUR, ETH, BTC). Default is ADA
@@ -107,6 +109,20 @@ BASE_URL_TOKEN_INDICATORS = "https://openapi.taptools.io/api/v1/token/indicators
 #              "sellers": 89,
 #              "sells": 92 }
 BASE_URL_GET_TOKEN_TRADE_STATS = "https://openapi.taptools.io/api/v1/token/trading/stats"
+
+
+
+# Portfolio
+BASE_URL_GET_PORTFOLIO_POS = "https://openapi.taptools.io/api/v1/wallet/portfolio/positions"
+
+
+
+
+
+
+
+
+
 
 
 # Loans

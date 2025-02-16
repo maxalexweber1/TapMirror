@@ -1,5 +1,5 @@
 import requests
-from config import API_KEY, BASE_URL_TOKEN,BASE_URL_LOANS, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG
+from config import API_KEY, BASE_URL_TOKEN,BASE_URL_LOANS, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG,BASE_URL_GET_PORTFOLIO_POS
 import pandas as pd
 
 # Header für die API-Anfragen
@@ -196,18 +196,41 @@ def get_token_price_indicators(unit, intervall, items, indicator, length,smoothi
         print("Antwort war:", response.text if "response" in locals() else "Keine Antwort verfügbar")
         return None
     
-def get_token_trading_stats(unit, timeframe):
+def get_token_trading_stats(tokenid, timeframe):
     """Holt die Anzahl der Token Holder."""
     headers = {
         "x-api-key": API_KEY
     }
 
     params = {
-        "unit": unit,
+        "unit": tokenid,
         "timeframe": timeframe
     }
     try:
         response = requests.get(BASE_URL_TOKEN_CHG, headers=headers, params=params)
+        response.raise_for_status()
+        return response.json()
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Fehler beim Abrufen der Daten: {e}")
+        return None
+    except (KeyError, TypeError, ValueError) as e:
+        print(f" Fehler beim Parsen der JSON-Antwort: {e}")
+        print("Antwort war:", response.text if "response" in locals() else "Keine Antwort verfügbar")
+        return None
+    
+
+def get_portfolio_stats(address):
+    """Holt die Anzahl der Token Holder."""
+    headers = {
+        "x-api-key": API_KEY
+    }
+
+    params = {
+        "address": address
+    }
+    try:
+        response = requests.get(BASE_URL_GET_PORTFOLIO_POS, headers=headers, params=params)
         response.raise_for_status()
         return response.json()
         

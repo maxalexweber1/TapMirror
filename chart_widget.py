@@ -52,3 +52,4 @@ class ChartWidget(QLabel):
        # Pixmap skalieren, damit es ins Widget passt
         scaled_pix = pix.scaled(self.width(), self.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(scaled_pix)
+        matplotlib.pyplot.close()

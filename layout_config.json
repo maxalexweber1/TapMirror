@@ -9,8 +9,7 @@
             "show": [
                 "adabalance",
                 "adavalue",
-                "numFt",
-                "numNft"
+                "tokens"
             ],
             "position": [
                 0,

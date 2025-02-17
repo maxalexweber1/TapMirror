@@ -6,9 +6,10 @@ class Portfolio:
         self.liquid_value = data.get("liquidValue")
         self.num_FTs = data.get("numFTs")
         self.num_NFTs = data.get("numNFTs")
-        self.positions_ft = data.get("positionsFt", [])
+        self.positions_ft = [PositionFt(ft) for ft in data.get("positionsFt", [])]
         self.positions_lp = [PositionLp(lp) for lp in data.get("positionsLp", [])]
         self.positions_nft = [PositionNft(nft) for nft in data.get("positionsNft", [])]
+        self.positions_ft
 
     def get_lp_tickers(self):
         """Gibt eine Liste der Ticker aus den LP-Positionen zurück."""
@@ -53,3 +54,21 @@ class PositionNft:
         self.listings = data.get("listings")
         self.name = data.get("name")
         self.policy = data.get("policy")
+
+
+class PositionFt:
+    def __init__(self, data):
+        # Schlüssel wie "24h", "30d" und "7d" werden auf gültige Variablennamen gemappt.
+        self.change_24h = data.get("24h")
+        self.change_30d = data.get("30d")
+        self.change_7d = data.get("7d")
+        self.ada_value = data.get("adaValue")
+        self.balance = data.get("balance")
+        self.fingerprint = data.get("fingerprint")
+        self.liquidBalance = data.get("liquidBalance")
+        self.liqidValue = data.get("liquidValue")
+        self.price = data.get("price")
+        self.ticker = data.get("ticker")
+        self.unit = data.get("unit")
+
+

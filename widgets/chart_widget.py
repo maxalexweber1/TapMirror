@@ -11,26 +11,25 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class ChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(800, 400)  # Größe anpassen
-        self.update_chart([])  # Initiales Chart mit leeren Daten
+        self.setFixedSize(800, 400)  # Size
+        self.update_chart([]) 
 
     def update_chart(self, data):
-        """Erstellt ein Preisdiagramm basierend auf API-Daten."""
+        """creates a price chart based on a data frame"""
         df = pd.DataFrame(data)
-            # Check if the DataFrame is empty
+            # check if the dataframe is empty
         if df.empty:
-            self.setText("Keine Daten verfügbar")
+            self.setText("No data available")
             return
 
         if "date" not in df.columns:
-            self.setText("Die erforderliche 'date'-Spalte fehlt in den Daten.")
+            self.setText("The required date column is missing in the data")
             return
 
         df["date"] = pd.to_datetime(df["date"])
 
-    # Matplotlib-Plot erstellen
+    # create plot
         fig, ax = plt.subplots(figsize=(6, 3))
-        # Setze den Hintergrund von Figure und Axes auf schwarz
         fig.patch.set_facecolor("black")
         ax.set_facecolor("black")
         ax.plot(df["date"], df["close"],
@@ -42,14 +41,14 @@ class ChartWidget(QLabel):
             solid_capstyle="round",
             solid_joinstyle="round")
         ax.axis('off')
-        # Speichern des Bildes in QPixmap für QLabel
+        # save the image in QPixmap for QLabel
         canvas = FigureCanvas(fig)
         canvas.draw()
         width, height = canvas.get_width_height()
         buf = canvas.buffer_rgba()  # returns a memoryview
         img = QImage(buf, width, height, width * 4, QImage.Format_RGBA8888)
         pix = QPixmap.fromImage(img)
-       # Pixmap skalieren, damit es ins Widget passt
+        # scale the pixmap so that it fits into the widget
         scaled_pix = pix.scaled(self.width(), self.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(scaled_pix)
         matplotlib.pyplot.close()

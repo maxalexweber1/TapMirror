@@ -1,4 +1,3 @@
-from api import get_portfolio_stats
 class Portfolio:
     def __init__(self, data):
         self.ada_balance = data.get("adaBalance")

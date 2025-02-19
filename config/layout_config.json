@@ -1,0 +1,77 @@
+{
+    "grid_size": [
+        2,
+        2
+    ],
+    "sections": [
+        {
+            "type": "portfolio",
+            "font_size": 50,
+            "color": "white",
+            "size": "large",
+            "innerWidgets": [
+                "adabalance",
+                "adavalue",
+                "tokens"
+            ],
+            "position": [
+                0,
+                0
+            ]
+        },
+        {
+            "type": "clock",
+            "font_size": 50,
+            "color": "white",
+            "size": "small",
+            "position": [
+                0,
+                1
+            ]
+        },
+        {
+            "type": "market_data",
+            "font_size": 50,
+            "color": "white",
+            "size": "medium",
+            "innerWidgets": [
+                "quote",
+                "activeaddresses",
+                "dexvolume"
+            ],
+            "position": [
+                1,
+                1
+            ]
+        },
+        {
+            "type": "tokens",
+            "show": [
+                "logo",
+                "price",
+                "change",
+                "chart"
+            ],
+            "tokens": [
+                "MIN",
+                "SNEK",
+                "IAG",
+                "XER"
+            ],
+            "font_size": 50,
+            "color": "white",
+            "size": "medium",
+            "innerWidgets": [
+                "logo",
+                "price",
+                "change",
+                "chart"
+            ],
+            "position": [
+                1,
+                0
+            ]
+        }
+    ],
+    "display_settings": {}
+}

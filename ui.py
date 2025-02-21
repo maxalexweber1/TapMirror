@@ -5,9 +5,7 @@ from widgets.token_widget import TokenWidget
 from widgets.clock_widget import ClockWidget
 from widgets.market_data_widget import MarketDataWidget
 from widgets.portfolio_widget import PortfolioWidget
-from api.api import get_portfolio_stats
-from config.config import PORTFOLIO_ADDRESS
-from portfolio import Portfolio
+
 
 def load_layout_config():
     with open("./config/layout_config.json", "r") as file:
@@ -18,7 +16,6 @@ class TapMirrorUI(QWidget):
         super().__init__()
         self.config = load_layout_config()
         self.ui_elements = {}
-        self.portfolio_data = None
 
         self.initUI()
         self.update_data()
@@ -37,7 +34,6 @@ class TapMirrorUI(QWidget):
 
         for section in self.config["sections"]:
             row, col = section["position"]
-            print(f"Creating widget for {section['type']} at position [{row}, {col}]")  # Debug
             section_frame = QFrame()
             section_frame.setFrameStyle(QFrame.Box | QFrame.Plain)
             section_frame.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #333;")
@@ -52,7 +48,7 @@ class TapMirrorUI(QWidget):
                 widget = MarketDataWidget(section)
                 self.ui_elements[f"market_data_{row}_{col}"] = widget
             elif section["type"] == "portfolio":
-                widget = PortfolioWidget(section, self.portfolio_data)
+                widget = PortfolioWidget(section)
                 self.ui_elements[f"portfolio_{row}_{col}"] = widget
 
             section_frame.setLayout(widget.layout())
@@ -62,14 +58,7 @@ class TapMirrorUI(QWidget):
         self.setStyleSheet("background-color: #1a1a1a;")
 
     def update_data(self):
-        portfolio_response = get_portfolio_stats(PORTFOLIO_ADDRESS)
-        self.portfolio_data = Portfolio(portfolio_response)
-
         for key, widget in self.ui_elements.items():
-            print(f"Updating widget: {key}")  # Debug
-            if key.startswith("portfolio"):
-                widget.update_data(self.portfolio_data)
-            else:
                 widget.update_data()
 
     def keyPressEvent(self, event):

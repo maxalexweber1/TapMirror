@@ -23,7 +23,8 @@ TOKEN_MAPPING = {
 }
 
 # Portfolio Address
-PORTFOLIO_ADDRESS = "addr1qx9ezdwpn7402eauaty8su2wa6w2rcwdzn0e4g26z8m8mmawcx548yh5jcq0yugctgwe3s2x5r6wqwyav2hfxve7nnaqzmpysx"
+PORTFOLIO_ADDRESS = "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7"
+PORTFOLIO_STAKE_ADRESS = "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7"
 
 # Token Market Stats
 # Api Method: get_market_stats(quote): Example:  get_market_stats("ADA"):

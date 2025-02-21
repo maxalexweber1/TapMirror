@@ -39,7 +39,7 @@ class MarketDataWidget(QWidget):
 
         self.setLayout(layout)
 
-    def update_data(self, data=None):  # Optionaler Parameter
+    def update_data(self, data=None):
         market_data = get_market_stats("ADA")
         if "quote" in self.market_elements:
             quote_data = get_quote_price("USD")

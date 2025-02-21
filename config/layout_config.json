@@ -6,13 +6,15 @@
     "sections": [
         {
             "type": "portfolio",
-            "font_size": 50,
+            "font_size": 30,
             "color": "white",
             "size": "large",
             "innerWidgets": [
                 "adabalance",
                 "adavalue",
-                "tokens"
+                "tokens",
+                "trades",
+                "lppos"
             ],
             "position": [
                 0,
@@ -21,7 +23,7 @@
         },
         {
             "type": "clock",
-            "font_size": 50,
+            "font_size": 80,
             "color": "white",
             "size": "small",
             "position": [
@@ -31,7 +33,7 @@
         },
         {
             "type": "market_data",
-            "font_size": 50,
+            "font_size": 60,
             "color": "white",
             "size": "medium",
             "innerWidgets": [

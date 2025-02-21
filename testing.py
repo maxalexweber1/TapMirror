@@ -1,15 +1,11 @@
-import json
+import sys
+from PyQt5.QtWidgets import QApplication
+from ui import TapMirrorUI
+from api.api import get_portfolio_trade_history 
 
-def load_layout_config():
-    """Loads the layout configuration from a JSON file and validates it."""
-    try:
-        with open("layout_config.json", "r") as file:
-            config = json.load(file)
-            print("✅ Erfolgreich geladen:", json.dumps(config, indent=4))  # Debugging
-            return config
-    except json.JSONDecodeError as e:
-        print(f"❌ JSON-Fehler: {e}")
-        return {}
-    except Exception as e:
-        print(f"❌ Fehler beim Laden von layout_config.json: {e}")
-        return {}
+
+def main():
+   response = get_portfolio_trade_history("stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7")
+   print(response)
+if __name__ == "__main__":
+    main()

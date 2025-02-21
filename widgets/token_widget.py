@@ -62,7 +62,7 @@ class TokenWidget(QWidget):
 
         self.setLayout(layout)
 
-    def update_data(self, data=None):  # Optionaler Parameter
+    def update_data(self, data=None):
         for ticker, elements in self.token_widgets.items():
             price_label = elements.get("price")
             chart_widget = elements.get("chart")

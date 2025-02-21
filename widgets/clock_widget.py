@@ -21,5 +21,5 @@ class ClockWidget(QWidget):
 
         self.setLayout(layout)
 
-    def update_data(self, data=None):  # Optionaler Parameter
+    def update_data(self, data=None): 
         self.label.setText(datetime.now().strftime("%H:%M:%S"))

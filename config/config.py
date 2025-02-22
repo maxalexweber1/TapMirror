@@ -2,16 +2,16 @@
 QUOTE_CURRENCY = "ADA"
 
 # Api Key
-API_KEY = "***REMOVED***"   # Ersetze mit deinem echten API-Schlüssel
+API_KEY = "***REMOVED***"
 
 # Quote Currency
 QUOTE_CURRENCY = "ADA"  # Reference currency for market data
 
 # Update Interval
-UPDATE_INTERVAL = 10000  # Time in milliseconds (10 seconds)
+UPDATE_INTERVAL = 100000  # Time in milliseconds (10 seconds)
 
 # Mapping for Ticker to Token unit (policy + hex name)
-TOKEN_MAPPING = {
+TOKEN_ID_MAPPING = {
     "LENFI": "8fef2d34078659493ce161a6c7fba4b56afefa8535296a5743f6958741414441",
     "SNEK": "279c909f348e533da5808898f87f9a14bb2c3dfbbacccd631d927a3f534e454b",
     "IAG": "5d16cc1a177b5d9ba9cfa9793b07e60f1fb70fea1f8aef064415d114494147",
@@ -22,9 +22,17 @@ TOKEN_MAPPING = {
     "NVL": "5b26e685cc5c9ad630bde3e3cd48c694436671f3d25df53777ca60ef4e564c"
 }
 
-# Portfolio Address
-PORTFOLIO_ADDRESS = "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7"
-PORTFOLIO_STAKE_ADRESS = "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7"
+# Mapping for Ticker to Token unit (policy + hex name)
+TOKEN_PRINT_MAPPING = {
+    "LENFI": "asset1khk46tdfsknze9k84ae0ee0k2x8mcwhz93k70d",
+    "SNEK": "asset108xu02ckwrfc8qs9d97mgyh4kn8gdu9w8f5sxk",
+    "IAG": "asset1z62wksuv4sjkl24kjgr2sm8tfr4p0cf9p32rca",
+    "LQ": "asset13epqecv5e2zqgzaxju0x4wqku0tka60wwpc52z",
+    "XER": "asset1yxmhmq2sqddn4vfl0um2dtlg4r7g2p9u9ed6rc",
+    "MIN": "asset1d9v7aptfvpx7we2la8f25kwprkj2ma5rp6uwzv",
+    "FLDT": "asset1gayaljphz3tepway6u6ruuty9cee2pj7wch408",
+    "NVL": "asset1jle4pt4cg8264ypx4u45vt99haa6ty3t7naxer"
+}
 
 # Token Market Stats
 # Api Method: get_market_stats(quote): Example:  get_market_stats("ADA"):

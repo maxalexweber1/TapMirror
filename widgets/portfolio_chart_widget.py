@@ -8,47 +8,46 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QImage
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
-class ChartWidget(QLabel):
+class PortfolioChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(800, 400)  # Size
+        self.setFixedSize(800, 400)
         self.update_chart([]) 
 
     def update_chart(self, data):
         """creates a price chart based on a data frame"""
+        
+        print(data)
+        
         df = pd.DataFrame(data)
-            # check if the dataframe is empty
+
+        print(df)
+         
         if df.empty:
             self.setText("No data available")
             return
 
-        if "date" not in df.columns:
-            self.setText("The required date column is missing in the data")
-            return
+        df["time"] = pd.to_datetime(df["time"])
 
-        df["date"] = pd.to_datetime(df["date"])
-
-    # create plot
         fig, ax = plt.subplots(figsize=(6, 3))
         fig.patch.set_facecolor("black")
         ax.set_facecolor("black")
-        ax.plot(df["date"], df["close"],
+        ax.plot(df["time"], df["value"],
             color="white",
-            label="Close",
             marker="o",
             linestyle="-",
             lw=5,
             solid_capstyle="round",
             solid_joinstyle="round")
         ax.axis('off')
-        # save the image in QPixmap for QLabel
+       
         canvas = FigureCanvas(fig)
         canvas.draw()
         width, height = canvas.get_width_height()
-        buf = canvas.buffer_rgba()  # returns a memoryview
+        buf = canvas.buffer_rgba() 
         img = QImage(buf, width, height, width * 4, QImage.Format_RGBA8888)
         pix = QPixmap.fromImage(img)
-        # scale the pixmap so that it fits into the widget
+       
         scaled_pix = pix.scaled(self.width(), self.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(scaled_pix)
         matplotlib.pyplot.close()

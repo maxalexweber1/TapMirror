@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel,QGridLayout
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
-from api.api import get_token_by_id, get_token_price_by_id, get_token_price_chg
-from widgets.chart_widget import ChartWidget
-from config.config import TOKEN_MAPPING
+from api.taptools_api import get_token_by_id, get_token_price_by_id, get_token_price_chg
+from api.xerberus_api import get_risk_score
+from widgets.token_chart_widget import TokenChartWidget
+from config.config import TOKEN_ID_MAPPING, TOKEN_PRINT_MAPPING
 import os
 
 class TokenWidget(QWidget):
@@ -15,16 +16,16 @@ class TokenWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
-        show_options = self.config.get("show", self.config.get("innerWidgets", []))
+        inner_widgets = self.config["innerWidgets"]
         font_size = self.config.get("font_size", 50)
         color = self.config.get("color", "white")
         style = f"font-size: {font_size}px; color: {color};"
 
         for ticker in self.config["tokens"]:
+            grid = QGridLayout()
             token_hbox = QHBoxLayout()
             widget_dict = {}
-
-            if "logo" in show_options:
+            if "logo" in inner_widgets:
                 image_label = QLabel()
                 image_path = f"assets/{ticker}.png"
                 if os.path.exists(image_path):
@@ -34,52 +35,90 @@ class TokenWidget(QWidget):
                     image_label.setText("[No Image]")
                 image_label.setFixedSize(70, 70)
                 image_label.setAlignment(Qt.AlignVCenter)
-                token_hbox.addWidget(image_label)
+                grid.addWidget(image_label)
+                grid.setColumnMinimumWidth(0, 70)
                 widget_dict["image"] = image_label
 
-            if "price" in show_options:
-                price_label = QLabel(f"{ticker}: Loading...")
+            if "ticker" in inner_widgets:
+                ticker_label = QLabel(f"{ticker}")
+                ticker_label.setStyleSheet(style)
+                ticker_label.setAlignment(Qt.AlignVCenter)
+                grid.addWidget(ticker_label, 0, 1)
+                grid.setColumnMinimumWidth(1, 100)
+                widget_dict["ticker"] = ticker_label
+
+            if "price" in inner_widgets:
+                price_label = QLabel("Loading... ₳")
                 price_label.setStyleSheet(style)
                 price_label.setAlignment(Qt.AlignVCenter)
-                token_hbox.addWidget(price_label)
+                grid.addWidget(price_label, 0, 1)
+                grid.setColumnMinimumWidth(1, 200)
                 widget_dict["price"] = price_label
 
-            if "change" in show_options:
+            if "riskrating" in inner_widgets:
+                risk_image_label = QLabel()    
+                fingerprint =  TOKEN_PRINT_MAPPING.get(ticker)
+                riskating_data = get_risk_score (fingerprint)
+                if riskating_data:
+                    token_rating = riskating_data.get('risk_category') 
+                    rating_image_path = f"assets/risk_ratings/{token_rating}.png"
+                    if os.path.exists(rating_image_path):
+                        pixmap = QPixmap(rating_image_path).scaled(70, 70, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        risk_image_label.setPixmap(pixmap)
+                    else:
+                       risk_image_label.setText("[N/A]")
+                       risk_image_label.setFixedSize(70, 70)
+                       risk_image_label.setAlignment(Qt.AlignVCenter)
+                    grid.addWidget(risk_image_label, 0, 2)
+                    grid.setColumnMinimumWidth(2, 70)
+                    widget_dict["risk_image"] = risk_image_label
+
+            if "change" in inner_widgets:
                 change_label = QLabel("Loading...")
                 change_label.setStyleSheet(style)
                 change_label.setAlignment(Qt.AlignVCenter)
-                token_hbox.addWidget(change_label)
+                grid.addWidget(change_label, 0, 3)
+                grid.setColumnMinimumWidth(3, 300)
                 widget_dict["change"] = change_label
 
-            if "chart" in show_options:
-                chart_widget = ChartWidget(self)
+            if "chart" in inner_widgets:
+                chart_widget = TokenChartWidget(self)
                 chart_widget.setFixedSize(300, 150)
-                token_hbox.addWidget(chart_widget)
+                grid.addWidget(chart_widget, 0, 4)
+                grid.setColumnMinimumWidth(4, 300)
                 widget_dict["chart"] = chart_widget
 
-            layout.addLayout(token_hbox)
+            layout.addLayout(grid)
             self.token_widgets[ticker] = widget_dict
 
         self.setLayout(layout)
 
     def update_data(self, data=None):
         for ticker, elements in self.token_widgets.items():
-            price_label = elements.get("price")
+            price_label = elements.get("price") 
             chart_widget = elements.get("chart")
             change_label = elements.get("change")
 
-            token_id = TOKEN_MAPPING.get(ticker)
+            token_id = TOKEN_ID_MAPPING.get(ticker)
             if price_label and token_id:
                 token_data = get_token_by_id(token_id)
-                if token_data:
-                    price = round(float(token_data.get("price", 0)), 4)
-                    price_label.setText(f"{ticker}: {price} ₳")
+
+            if token_data:
+                price = round(float(token_data.get("price", 0)), 4)
+                price_text = f"{price:>10.4f} ₳"
+                price_label.setText(price_text)
+
             if chart_widget:
                 price_data = get_token_price_by_id(token_id, "1D", 7)
                 chart_widget.update_chart(price_data)
+
             if change_label:
                 change_data = get_token_price_chg(token_id, "1h", "4h", "24h")
                 ch_1 = round(float(change_data.get("1h")) * 100, 2)
                 ch_2 = round(float(change_data.get("4h")) * 100, 2)
                 ch_3 = round(float(change_data.get("24h")) * 100, 2)
-                change_label.setText(f"1h: {ch_1}% 4h: {ch_2}% 24h: {ch_3}%")
+                change_label.setText(f"1h: {ch_1:>5.2f}% 4h: {ch_2:>5.2f}% 24h: {ch_3:>5.2f}%")
+
+                
+
+

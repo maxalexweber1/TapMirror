@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt
-from api.api import get_market_stats, get_quote_price
+from api.taptools_api import get_market_stats, get_quote_price
 
 class MarketDataWidget(QWidget):
     def __init__(self, config):

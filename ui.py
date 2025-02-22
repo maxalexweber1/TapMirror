@@ -22,7 +22,7 @@ class TapMirrorUI(QWidget):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(10000)
+        self.timer.start(100000)
 
     def initUI(self):
         self.setWindowTitle("TapMirror")
@@ -36,7 +36,7 @@ class TapMirrorUI(QWidget):
             row, col = section["position"]
             section_frame = QFrame()
             section_frame.setFrameStyle(QFrame.Box | QFrame.Plain)
-            section_frame.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #333;")
+            section_frame.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #000000;")
 
             if section["type"] == "tokens":
                 widget = TokenWidget(section)
@@ -55,7 +55,7 @@ class TapMirrorUI(QWidget):
             layout.addWidget(section_frame, row, col)
 
         self.setLayout(layout)
-        self.setStyleSheet("background-color: #1a1a1a;")
+        self.setStyleSheet("background-color: #000000;")
 
     def update_data(self):
         for key, widget in self.ui_elements.items():

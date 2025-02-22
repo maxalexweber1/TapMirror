@@ -7,11 +7,15 @@
         {
             "type": "portfolio",
             "font_size": 30,
+            "header_size": 25,
             "color": "white",
+            "address": "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7",
+            "refesh": "10000",
             "size": "large",
             "innerWidgets": [
                 "adabalance",
                 "adavalue",
+                "chart",
                 "tokens",
                 "trades",
                 "lppos"
@@ -26,6 +30,7 @@
             "font_size": 80,
             "color": "white",
             "size": "small",
+            "refesh": "10000",
             "position": [
                 0,
                 1
@@ -35,6 +40,7 @@
             "type": "market_data",
             "font_size": 60,
             "color": "white",
+            "refesh": "10000",
             "size": "medium",
             "innerWidgets": [
                 "quote",
@@ -48,26 +54,23 @@
         },
         {
             "type": "tokens",
-            "show": [
+            "font_size": 50,
+            "color": "white",
+            "size": "medium",
+            "refesh": "10000",
+            "innerWidgets": [
                 "logo",
+                "ticker",
                 "price",
                 "change",
-                "chart"
+                "chart",
+                "riskrating"
             ],
             "tokens": [
                 "MIN",
                 "SNEK",
                 "IAG",
-                "XER"
-            ],
-            "font_size": 50,
-            "color": "white",
-            "size": "medium",
-            "innerWidgets": [
-                "logo",
-                "price",
-                "change",
-                "chart"
+                "LENFI"
             ],
             "position": [
                 1,

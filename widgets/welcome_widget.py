@@ -9,7 +9,7 @@ class WelcomeWidget(QWidget):
         self.initUI()
         timer = QTimer(self)
         timer.timeout.connect(self.update_data)
-        timer.start(1000)
+        timer.start(100000)
 
     def initUI(self):
         layout = QVBoxLayout()

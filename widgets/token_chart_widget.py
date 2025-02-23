@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Qt5Agg")
 import matplotlib.pyplot as plt
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import QImage
@@ -11,8 +11,11 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class TokenChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(800, 400)  # Size
+        self.setFixedSize(800, 400) 
         self.update_chart([]) 
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_chart)
+        timer.start(100000)
 
     def update_chart(self, data):
         """creates a price chart based on a data frame"""

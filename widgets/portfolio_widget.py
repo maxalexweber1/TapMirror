@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QVBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtGui import QPixmap
 import os
@@ -8,15 +8,18 @@ from widgets.portfolio_chart_widget import PortfolioChartWidget
 from api.taptools_api import get_portfolio_stats, get_portfolio_trade_history, get_portfolio_trended_value
 
 class PortfolioWidget(QWidget):
-    BOLD_STYLE = "font-weight: bold;"  # TODO put into config file
-
+    BOLD_STYLE = "font-weight: bold;"
+    
     def __init__(self, config):
         super().__init__()
         self.config = config  
         self.initUI()
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_data)
+        timer.start(10000)
 
     def get_style(self, font_size=None, color=None, bold=False, header_size=False):
-        """Helper function to generate consistent stylesheets from config."""
+        """generate consistent stylesheets from config."""
         font_size = font_size or self.config["font_size"]
         header_size = header_size or self.config["header_size"]
         color = color or self.config["color"] 
@@ -33,17 +36,16 @@ class PortfolioWidget(QWidget):
         inner_widgets = self.config["innerWidgets"]
 
         if "adabalance" in inner_widgets or "adavalue" in inner_widgets or "liqvalue" in inner_widgets:
-            # add H-Lable
+        
             top_labels_layout = QHBoxLayout()
 
-            # Add ADA balance label if specified in innerWidgets
             if "adabalance" in inner_widgets:
                 self.balance_label = QLabel("Loading...")
                 self.balance_label.setStyleSheet(self.get_style())
                 self.balance_label.setAlignment(Qt.AlignVCenter)
                 top_labels_layout.addWidget(self.balance_label)
 
-            # Add portfolio value label if specified in innerWidgets
+           
             if "adavalue" in inner_widgets:
                 self.value_label = QLabel("Loading...")
                 self.value_label.setStyleSheet(self.get_style())
@@ -57,7 +59,6 @@ class PortfolioWidget(QWidget):
 
             layout.addLayout(top_labels_layout)
 
-        # Add token table if specified in innerWidgets
         if "tokens" in inner_widgets:
             self.token_table = QGridLayout()
             headers = ["Token", "Ticker", "Price", "Holdings", "Value", "24h", "7d", "30d"]
@@ -69,7 +70,7 @@ class PortfolioWidget(QWidget):
             layout.addLayout(self.token_table)
             layout.addSpacing(10) 
 
-        # Add liquidity pool positions table if specified in innerWidgets
+       
         if "lppos" in inner_widgets:
             self.lppos_table = QGridLayout()
             headers = ["LP Token", "Amount LP", "TokenA/TokenB", "Value"]
@@ -81,7 +82,7 @@ class PortfolioWidget(QWidget):
             layout.addLayout(self.lppos_table)
             layout.addSpacing(10) 
 
-        # Add NFT table if specified in innerWidgets
+      
         if "nfts" in inner_widgets:
             self.nft_table = QGridLayout()
             headers = ["Name", "Amount", "Value", "24h", "7d", "30d"]
@@ -92,7 +93,7 @@ class PortfolioWidget(QWidget):
                 self.nft_table.addWidget(nft_header_label, 0, col_idx)
             layout.addLayout(self.nft_table)
             layout.addSpacing(10) 
-        # Add trade table if specified in innerWidgets
+        
         if "trades" in inner_widgets:
             self.trade_table = QGridLayout()
             headers = ["Action", "Time", "Token", "Amount", "ADA", "Change"]
@@ -121,7 +122,6 @@ class PortfolioWidget(QWidget):
             ada_balance = round(float(portfolio.ada_balance))
             self.balance_label.setText(f"ADA: {ada_balance} ₳")
 
-        # Update portfolio value
         if hasattr(self, "value_label"):
             ada_value = round(float(portfolio.ada_value))
             self.value_label.setText(f"Portfolio Value: {ada_value} ₳")
@@ -129,7 +129,6 @@ class PortfolioWidget(QWidget):
         if hasattr(self,"chart_widget"):
              self.chart_widget.update_chart(portfolio_value) 
 
-        # Update token table
         if hasattr(self, "token_table"):
             self._clear_table(self.token_table)
             if not portfolio.positions_ft:
@@ -142,7 +141,6 @@ class PortfolioWidget(QWidget):
                     self._add_token_row(token, row_idx, font_size, color)
                     row_idx += 1
 
-        # Update liquidity pool positions table
         if hasattr(self, "lppos_table"):
             self._clear_table(self.lppos_table)
             if not portfolio.positions_lp:
@@ -153,22 +151,20 @@ class PortfolioWidget(QWidget):
                     self._add_lppos_row(lp_pos, row_idx, font_size, color)
                     row_idx += 1
 
-        # Update NFT table
         if hasattr(self, "nft_table"):
             self._clear_table(self.nft_table)
             if not portfolio.positions_nft:
-                self.self._remove_table_header(self.lppos_table)
+                self._remove_table_header(self.lppos_table)
             else:
                 row_idx = 1
                 for nft in portfolio.positions_nft:
                     self._add_nft_row(nft, row_idx, font_size, color)
                     row_idx += 1
 
-        # Update trade table
         if hasattr(self, "trade_table"):
             self._clear_table(self.trade_table)
             if not trades.trades:
-                self.self._remove_table_header(self.trade_table)
+                self._remove_table_header(self.trade_table)
             else:    
                 row_idx = 1
                 for trade in trades.trades:
@@ -177,7 +173,7 @@ class PortfolioWidget(QWidget):
                     row_idx += 1
 
     def _clear_table(self, table):
-        """Helper function to clear table contents."""
+        """clear table contents."""
         for i in range(table.rowCount() - 1, 0, -1):
             for j in range(table.columnCount()):
                 item = table.itemAtPosition(i, j)

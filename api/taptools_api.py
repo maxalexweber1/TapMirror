@@ -1,5 +1,5 @@
 import requests
-from config.config import API_KEY, BASE_URL_TOKEN,BASE_URL_LOANS, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG,BASE_URL_GET_PORTFOLIO_POS,BASE_URL_GET_PORTFOLIO_TRENDED_VALUE,BASE_URL_GET_PORTFOLIO_TRADES
+from config.config import API_KEY, BASE_URL_TOKEN,BASE_URL_LOANS, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG,BASE_URL_GET_PORTFOLIO_POS,BASE_URL_GET_PORTFOLIO_TRENDED_VALUE,BASE_URL_GET_PORTFOLIO_TRADES,BASE_URL_GET_LAST_TOKEN_TRADES,BASE_URL_GET_TOKEN_BY_MC,BASE_URL_GET_TOKEN_BY_VOL
 import pandas as pd
 
 # Header
@@ -52,10 +52,9 @@ def get_token_price_by_id(token_id, intervall, timeframe):
     """gets token historical price."""""
     params = {
         "unit": token_id,
-        "intervall": intervall,  # z.B. "1M", "1D", "1W"
-        "numIntervals": timeframe  # Anzahl der Perioden
+        "intervall": intervall,  
+        "numIntervals": timeframe
     }
-
     try:
         response = requests.get(BASE_URL_TOKEN_OHLCV, headers=HEADERS, params=params, timeout=10)
         response.raise_for_status()
@@ -200,6 +199,37 @@ def get_portfolio_trended_value(address, timeframe, quote):
     }
     try:
         response = requests.get(BASE_URL_GET_PORTFOLIO_TRENDED_VALUE, headers=HEADERS, params=params)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error when retrieving portfolio trade history: {e}")
+        return None
+    
+def get_top_token_by_mc(mc_type, perPage):
+    """get_top_token_by_mc"""
+    params = {
+        "type": mc_type,
+        "perPage": perPage
+    }
+    try:
+        response = requests.get(BASE_URL_GET_TOKEN_BY_MC, headers=HEADERS, params=params)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error when retrieving portfolio trade history: {e}")
+        return None
+
+def get_last_token_trades(timeframe, unit, minAmount, sortBy,perPage):
+    """gets last trades for a spec. token"""
+    params = {
+        "timeframe": timeframe,
+        "unit": unit,
+        "sortBy": sortBy,
+        "minAmount": minAmount,
+        "perPage": perPage
+    }
+    try:
+        response = requests.get(BASE_URL_GET_LAST_TOKEN_TRADES, headers=HEADERS, params=params)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:

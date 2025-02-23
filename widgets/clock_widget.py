@@ -1,12 +1,16 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from datetime import datetime
+
 
 class ClockWidget(QWidget):
     def __init__(self, config):
         super().__init__()
         self.config = config
         self.initUI()
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_data)
+        timer.start(1000)
 
     def initUI(self):
         layout = QVBoxLayout()

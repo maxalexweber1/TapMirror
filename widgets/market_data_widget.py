@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from api.taptools_api import get_market_stats, get_quote_price
 
 class MarketDataWidget(QWidget):
@@ -8,6 +8,9 @@ class MarketDataWidget(QWidget):
         self.config = config
         self.market_elements = {}
         self.initUI()
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_data)
+        timer.start(100000)
 
     def initUI(self):
         layout = QVBoxLayout()

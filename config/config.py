@@ -7,9 +7,6 @@ API_KEY = "***REMOVED***"
 # Quote Currency
 QUOTE_CURRENCY = "ADA"  # Reference currency for market data
 
-# Update Interval
-UPDATE_INTERVAL = 100000  # Time in milliseconds (10 seconds)
-
 # Mapping for Ticker to Token unit (policy + hex name)
 TOKEN_ID_MAPPING = {
     "LENFI": "8fef2d34078659493ce161a6c7fba4b56afefa8535296a5743f6958741414441",
@@ -141,6 +138,36 @@ BASE_URL_GET_PORTFOLIO_TRENDED_VALUE ="https://openapi.taptools.io/api/v1/wallet
 # Example Response: [ { "time": 1692781200,
 #                       "value": 57 } ]
 BASE_URL_GET_PORTFOLIO_POS = "https://openapi.taptools.io/api/v1/wallet/portfolio/positions"
+
+
+# Get Top MC Tokens
+# Method: api.py ->get_top
+# Example Response: [{ "circSupply": 1252742236.022414,
+#                      "fdv": 1074222392.55,
+#                      "mcap": 689889366.5,
+#                      "price": 0.537,
+#                      "ticker": "AGIX",
+#                      "totalSupply": 1374050373.74311,
+#                      "unit": "b46b12f0a61721a0358988f806a7c1562e1e622d5886a73194051f336d6131" #}]
+BASE_URL_GET_TOP_MC_TOKENS = "https://openapi.taptools.io/api/v1/token/top/mcap"
+
+
+# Get Last Token trades
+# Method: api.py ->get 
+# Example Response: [ { "action": "buy",
+#"address": "addr1q9j5jqhqak5nmqphdqt4cj9kq0gppa49afyznggw03hjzhwxr0exydkt78th5wwrjphxh0h6rrgghzwxse6q3pdf9sxqkg2mmq",
+#"exchange": "Minswap",
+#"hash": "8df1c6f66c0d02153f604ea588e792582908d3299ef6d322ae0448001791a24f",
+#"lpTokenUnit": "f5808c2c990d86da54bfc97d89cee6efa20cd8461616359478d96b4c35e27e3c7b4bef4824e5a4989a97e017fb8a1156d9823c20821e4d2f1fa168e4",
+#"price": 100,
+#"time": 1692781200,
+#"tokenA": "63bb8054f9142b46582198e280f489b3c928dfecb390b0cb39a5cbfe74657374746f6b656e32",
+#"tokenAAmount": 100,
+#"tokenAName": "TEST2",
+#"tokenB": "string",
+#"tokenBAmount": 200,
+#"tokenBName": "ADA"#}#]]
+BASE_URL_GET_LAST_TOKEN_TRADES = "https://openapi.taptools.io/api/v1/token/trades"
 
 
 # Loans

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel,QGridLayout
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,QTimer
 from api.taptools_api import get_token_by_id, get_token_price_by_id, get_token_price_chg
 from api.xerberus_api import get_risk_score
 from widgets.token_chart_widget import TokenChartWidget
@@ -13,6 +13,9 @@ class TokenWidget(QWidget):
         self.config = config
         self.token_widgets = {}
         self.initUI()
+        timer = QTimer(self)
+        timer.timeout.connect(self.update_data)
+        timer.start(100000)
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -23,7 +26,6 @@ class TokenWidget(QWidget):
 
         for ticker in self.config["tokens"]:
             grid = QGridLayout()
-            token_hbox = QHBoxLayout()
             widget_dict = {}
             if "logo" in inner_widgets:
                 image_label = QLabel()

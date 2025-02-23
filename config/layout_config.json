@@ -10,8 +10,7 @@
             "header_size": 25,
             "color": "white",
             "address": "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7",
-            "refesh": "10000",
-            "size": "large",
+            "refesh": 10000,
             "innerWidgets": [
                 "adabalance",
                 "adavalue",
@@ -26,11 +25,14 @@
             ]
         },
         {
-            "type": "clock",
-            "font_size": 80,
+            "type": "lasttrades",
+            "font_size": 30,
+            "header_size": 40,
             "color": "white",
-            "size": "small",
-            "refesh": "10000",
+            "count": 10,
+            "ticker": "SNEK",
+            "refesh": 10000,
+            "value": 1000,
             "position": [
                 0,
                 1
@@ -40,8 +42,7 @@
             "type": "market_data",
             "font_size": 60,
             "color": "white",
-            "refesh": "10000",
-            "size": "medium",
+            "refesh": 10000,
             "innerWidgets": [
                 "quote",
                 "activeaddresses",
@@ -56,8 +57,7 @@
             "type": "tokens",
             "font_size": 50,
             "color": "white",
-            "size": "medium",
-            "refesh": "10000",
+            "refesh": 10000,
             "innerWidgets": [
                 "logo",
                 "ticker",

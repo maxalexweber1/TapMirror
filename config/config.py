@@ -170,16 +170,4 @@ BASE_URL_GET_TOP_MC_TOKENS = "https://openapi.taptools.io/api/v1/token/top/mcap"
 BASE_URL_GET_LAST_TOKEN_TRADES = "https://openapi.taptools.io/api/v1/token/trades"
 
 
-# Loans
-BASE_URL_LOANS = "https://openapi.taptools.io/api/v1/token/debt/loans"
-
-BASE_URL_LOAN_OFFER = "https://openapi.taptools.io/api/v1/token/debt/offers"
-
-
-# Token Top -> maybe not needet
-BASE_URL_TOKEN_LIQ = "https://openapi.taptools.io/api/v1/token/top/liquidity"
-
-BASE_URL_GET_TOKEN_BY_MC = "https://openapi.taptools.io/api/v1/token/top/mcap"
-
-BASE_URL_GET_TOKEN_BY_VOL = "https://openapi.taptools.io/api/v1/token/top/volume"
 

@@ -13,10 +13,7 @@ class PortfolioChartWidget(QLabel):
         super().__init__(parent)
         self.setFixedSize(800, 400)
         self.update_chart([])
-        timer = QTimer(self)
-        timer.timeout.connect(self.update_chart)
-        timer.start(100000) 
-
+ 
     def update_chart(self, data):
         """creates a price chart based on a data frame"""
              

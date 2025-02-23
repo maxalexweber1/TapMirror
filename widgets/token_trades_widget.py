@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPixmap
 from config.config import TOKEN_ID_MAPPING
 from datetime import datetime
 from api.taptools_api import get_last_token_trades
+import os
 
 
 class TokenTradesWidget(QWidget):
@@ -14,9 +15,11 @@ class TokenTradesWidget(QWidget):
         self.config = config
         self.token_widgets = {}
         self.initUI()
+
+        refresh = self.config.get("refresh", 100000)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(100000)
+        self.timer.start(refresh)
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -24,7 +27,7 @@ class TokenTradesWidget(QWidget):
         header_size = self.config["header_size"]
 
         self.trade_table = QGridLayout()
-        headers = ["Ticker", "Action", "Token", "ADA", "Price", "Time"]
+        headers = ["Token", "Action", "Amount", "ADA", "Price", "Time"]
         for col_idx, header in enumerate(headers):
             trade_header_label = QLabel(header)
             trade_header_label.setStyleSheet(self.get_style(header_size, color, bold=True))
@@ -35,26 +38,42 @@ class TokenTradesWidget(QWidget):
         self.setLayout(layout)
 
     def _add_trade_row(self, trade, row_idx, font_size, color):
-        
+
+        image_label = QLabel()
+        image_path = os.path.join("assets", f"{trade.tokenAName}.png")
+        pixmap = QPixmap(40, 40)
+        pixmap.fill(Qt.black)
+        if os.path.exists(image_path):
+            temp_pixmap = QPixmap(image_path)
+            if not temp_pixmap.isNull():
+                pixmap = temp_pixmap
+        pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        image_label.setPixmap(pixmap)
+        image_label.setAlignment(Qt.AlignCenter)
+        self.trade_table.addWidget(image_label, row_idx, 0)
+
         now = datetime.now() 
         trade_time = datetime.fromtimestamp(trade.time)
         delta_time = (now - trade_time).total_seconds()
 
         if delta_time <= 60:
             time_ago = f"{delta_time:.0f}s ago"
-        else:
+        elif  delta_time <= 3600: 
             time_ago = f"{round(delta_time / 60)}m ago"
+        elif delta_time <= 86400:
+            time_ago = f"{round(delta_time / 3600 )}h ago"
+        else:
+            time_ago = f"{round(delta_time / 86400 )} days ago"     
 
         labels = [
-            trade.tokenAName,
-            trade.action,
-            f"{round(float(trade.tokenAAmount))}",
-            f"{round(float(trade.tokenBAmount))}",
-            f"{round(float(trade.price), 3)}",
-            time_ago
+            (trade.action, 1),
+            (f"{round(float(trade.tokenAAmount))}", 2),
+            (f"{round(float(trade.tokenBAmount))}", 3),
+            (f"{round(float(trade.price), 3)}", 4),
+            ( time_ago, 5),
         ]
 
-        for col_idx, text in enumerate(labels):
+        for text, col_idx in labels:
             label = QLabel(str(text))
             label.setStyleSheet(self.get_style(font_size, color))
             self.trade_table.addWidget(label, row_idx, col_idx)
@@ -97,7 +116,7 @@ class TokenTradesWidget(QWidget):
         value = self.config["value"]
 
         token_id = TOKEN_ID_MAPPING.get(ticker)
-        last_trades_data = get_last_token_trades("1h", token_id, value, "time", trade_count)
+        last_trades_data = get_last_token_trades("24h", token_id, value, "time", trade_count)
 
         last_trades = LastTrades(last_trades_data)
 

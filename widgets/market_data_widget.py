@@ -8,9 +8,11 @@ class MarketDataWidget(QWidget):
         self.config = config
         self.market_elements = {}
         self.initUI()
+
+        refresh = self.config.get("refresh", 100000)
         timer = QTimer(self)
         timer.timeout.connect(self.update_data)
-        timer.start(100000)
+        timer.start(refresh)
 
     def initUI(self):
         layout = QVBoxLayout()

@@ -5,18 +5,19 @@ from PyQt5.QtGui import QPixmap
 import os
 from datetime import datetime
 from widgets.portfolio_chart_widget import PortfolioChartWidget 
-from api.taptools_api import get_portfolio_stats, get_portfolio_trade_history, get_portfolio_trended_value
+from api.taptools_api import get_portfolio_stats, get_portfolio_trade_history, get_portfolio_trended_value, get_token_by_id
 
 class PortfolioWidget(QWidget):
     BOLD_STYLE = "font-weight: bold;"
-    
+
     def __init__(self, config):
         super().__init__()
         self.config = config  
         self.initUI()
+        refresh = self.config.get("refresh", 100000)
         timer = QTimer(self)
         timer.timeout.connect(self.update_data)
-        timer.start(10000)
+        timer.start(refresh)
 
     def get_style(self, font_size=None, color=None, bold=False, header_size=False):
         """generate consistent stylesheets from config."""
@@ -243,13 +244,22 @@ class PortfolioWidget(QWidget):
     def _add_trade_row(self, trade, row_idx, font_size, color):
         """Add a row to the trade table."""
         formatted_time = datetime.fromtimestamp(float(trade.time)).strftime("%d-%m-%y %H:%M:%S")
+
+        token_data = get_token_by_id(trade.tokenA)
+
+        if token_data:
+            price_now = float(token_data.get("price", 0))
+            trade_price = float(trade.tokenBAmount) / float(trade.tokenAAmount)
+            
+            change = round(100- (trade_price / price_now) * 100,2)
+
         labels = [
             (trade.action, 0),
             (formatted_time, 1),
             (trade.tokenAName, 2),
             (f"{round(float(trade.tokenAAmount))}" if trade.tokenAAmount else "N/A", 3),
             (f"{round(float(trade.tokenBAmount))}" if trade.tokenBAmount else "N/A", 4),
-            ("N/A", 5),  # TODO need to calculate change since trade 
+            (f"{change} %", 5), 
         ]
         for text, col_idx in labels:
             label = QLabel(str(text))
@@ -327,6 +337,7 @@ class Trade:
     def __init__(self, data):        
         self.action = data.get("action")
         self.time = data.get("time")
+        self.tokenA = data.get("tokenA")
         self.tokenAName = data.get("tokenAName")
         self.tokenAAmount = data.get("tokenAAmount")
         self.tokenBName = data.get("tokenBName")

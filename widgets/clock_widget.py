@@ -8,13 +8,15 @@ class ClockWidget(QWidget):
         super().__init__()
         self.config = config
         self.initUI()
+
+        refresh = self.config.get("refresh", 1000)
         timer = QTimer(self)
         timer.timeout.connect(self.update_data)
-        timer.start(1000)
+        timer.start(refresh)
 
     def initUI(self):
         layout = QVBoxLayout()
-        font_size = self.config.get("font_size", 50)
+        font_size = self.config.get("font_size", 20)
         color = self.config.get("color", "white")
         style = f"font-size: {font_size}px; color: {color};"
 

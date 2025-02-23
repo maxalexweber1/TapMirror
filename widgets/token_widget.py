@@ -24,7 +24,9 @@ class TokenWidget(QWidget):
         inner_widgets = self.config["innerWidgets"]
         font_size = self.config.get("font_size", 50)
         color = self.config.get("color", "white")
+        pic_scale = self.config.get("images_size",20)
         style = f"font-size: {font_size}px; color: {color};"
+        chart_l, chart_h = self.config["chart_size"]
 
         for ticker in self.config["tokens"]:
             grid = QGridLayout()
@@ -33,14 +35,14 @@ class TokenWidget(QWidget):
                 image_label = QLabel()
                 image_path = f"assets/{ticker}.png"
                 if os.path.exists(image_path):
-                    pixmap = QPixmap(image_path).scaled(70, 70, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                    pixmap = QPixmap(image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     image_label.setPixmap(pixmap)
                 else:
                     image_label.setText("[No Image]")
-                image_label.setFixedSize(70, 70)
+                image_label.setFixedSize(pic_scale, pic_scale)
                 image_label.setAlignment(Qt.AlignVCenter)
                 grid.addWidget(image_label)
-                grid.setColumnMinimumWidth(0, 70)
+                grid.setColumnMinimumWidth(0, pic_scale)
                 widget_dict["image"] = image_label
 
             if "ticker" in inner_widgets:
@@ -67,11 +69,11 @@ class TokenWidget(QWidget):
                     token_rating = riskating_data.get('risk_category') 
                     rating_image_path = f"assets/risk_ratings/{token_rating}.png"
                     if os.path.exists(rating_image_path):
-                        pixmap = QPixmap(rating_image_path).scaled(70, 70, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        pixmap = QPixmap(rating_image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                         risk_image_label.setPixmap(pixmap)
                     else:
                        risk_image_label.setText("[N/A]")
-                       risk_image_label.setFixedSize(70, 70)
+                       risk_image_label.setFixedSize(pic_scale, pic_scale)
                        risk_image_label.setAlignment(Qt.AlignVCenter)
                     grid.addWidget(risk_image_label, 0, 2)
                     grid.setColumnMinimumWidth(2, 70)
@@ -87,7 +89,7 @@ class TokenWidget(QWidget):
 
             if "chart" in inner_widgets:
                 chart_widget = TokenChartWidget(self)
-                chart_widget.setFixedSize(300, 150)
+                chart_widget.setFixedSize(chart_l, chart_h)
                 grid.addWidget(chart_widget, 0, 4)
                 grid.setColumnMinimumWidth(4, 300)
                 widget_dict["chart"] = chart_widget

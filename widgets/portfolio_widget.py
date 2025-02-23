@@ -33,8 +33,10 @@ class PortfolioWidget(QWidget):
         """Initialize the UI layout and widgets based on config."""
         layout = QVBoxLayout()
         header_size = self.config["header_size"]
+        value_size = self.config["value_size"]
         color = self.config["color"]
         inner_widgets = self.config["innerWidgets"]
+        chart_l, chart_h = self.config["chart_size"]
 
         if "adabalance" in inner_widgets or "adavalue" in inner_widgets or "liqvalue" in inner_widgets:
         
@@ -42,20 +44,20 @@ class PortfolioWidget(QWidget):
 
             if "adabalance" in inner_widgets:
                 self.balance_label = QLabel("Loading...")
-                self.balance_label.setStyleSheet(self.get_style())
+                self.balance_label.setStyleSheet(self.get_style(font_size=value_size, bold=True))
                 self.balance_label.setAlignment(Qt.AlignVCenter)
                 top_labels_layout.addWidget(self.balance_label)
 
            
             if "adavalue" in inner_widgets:
                 self.value_label = QLabel("Loading...")
-                self.value_label.setStyleSheet(self.get_style())
+                self.value_label.setStyleSheet(self.get_style(font_size=value_size, bold=True))
                 self.value_label.setAlignment(Qt.AlignVCenter)
                 top_labels_layout.addWidget(self.value_label)
 
             if "chart" in inner_widgets:
                 self.chart_widget = PortfolioChartWidget(self)
-                self.chart_widget.setFixedSize(300, 150)
+                self.chart_widget.setFixedSize(chart_l, chart_h)
                 top_labels_layout.addWidget(self.chart_widget)
 
             layout.addLayout(top_labels_layout)
@@ -193,7 +195,8 @@ class PortfolioWidget(QWidget):
             temp_pixmap = QPixmap(image_path)
             if not temp_pixmap.isNull():
                 pixmap = temp_pixmap
-        pixmap = pixmap.scaled(32, 32, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        pic_scale = self.config["image_size"]
+        pixmap = pixmap.scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         image_label.setPixmap(pixmap)
         image_label.setAlignment(Qt.AlignCenter)
         self.token_table.addWidget(image_label, row_idx, 0)

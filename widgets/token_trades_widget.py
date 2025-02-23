@@ -38,16 +38,16 @@ class TokenTradesWidget(QWidget):
         self.setLayout(layout)
 
     def _add_trade_row(self, trade, row_idx, font_size, color):
-
+        pic_scale = self.config["images_size"]
         image_label = QLabel()
         image_path = os.path.join("assets", f"{trade.tokenAName}.png")
-        pixmap = QPixmap(40, 40)
+        pixmap = QPixmap(pic_scale, pic_scale)
         pixmap.fill(Qt.black)
         if os.path.exists(image_path):
             temp_pixmap = QPixmap(image_path)
             if not temp_pixmap.isNull():
                 pixmap = temp_pixmap
-        pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        pixmap = pixmap.scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         image_label.setPixmap(pixmap)
         image_label.setAlignment(Qt.AlignCenter)
         self.trade_table.addWidget(image_label, row_idx, 0)
@@ -97,7 +97,7 @@ class TokenTradesWidget(QWidget):
                 table.removeWidget(widget)
 
     def get_style(self, font_size=None, color=None, bold=False, header_size=False):
-        font_size = font_size or self.config.get("font_size", 50)
+        font_size = font_size or self.config.get("font_size", 30)
         header_size = header_size or self.config.get("header_size", 20)
         color = color or self.config.get("color", "white")
         style = f"font-size: {font_size}px; color: {color};"

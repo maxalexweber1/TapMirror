@@ -11,18 +11,16 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class PortfolioChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(800, 400)
+        #self.setFixedSize(800, 400)
         self.update_chart([])
  
     def update_chart(self, data):
         """creates a price chart based on a data frame"""
-             
         df = pd.DataFrame(data)
          
         if df.empty:
             self.setText("No data available")
             return
-
         df["time"] = pd.to_datetime(df["time"])
 
         fig, ax = plt.subplots(figsize=(6, 3))

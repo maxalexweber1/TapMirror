@@ -6,6 +6,8 @@ from widgets.clock_widget import ClockWidget
 from widgets.market_data_widget import MarketDataWidget
 from widgets.portfolio_widget import PortfolioWidget
 from widgets.token_trades_widget import TokenTradesWidget
+from widgets.weather_widget import WeatherWidget
+from widgets.token_loans_widget import TokenLoansWidget
 
 
 def load_layout_config():
@@ -52,6 +54,12 @@ class TapMirrorUI(QWidget):
             elif section["type"] == "lasttrades":
                 widget = TokenTradesWidget(section)
                 self.ui_elements[f"trades_{row}_{col}"] = widget
+            elif section["type"] == "weather":
+                widget = WeatherWidget(section)
+                self.ui_elements[f"weather_{row}_{col}"] = widget
+            elif section["type"] == "exploans":
+                widget = TokenLoansWidget(section)
+                self.ui_elements[f"exploans_{row}_{col}"] = widget
 
             frame_layout = QVBoxLayout()
             frame_layout.addWidget(widget)

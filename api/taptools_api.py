@@ -1,5 +1,5 @@
 import requests
-from config.config import API_KEY, BASE_URL_TOKEN, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG,BASE_URL_GET_PORTFOLIO_POS,BASE_URL_GET_PORTFOLIO_TRENDED_VALUE,BASE_URL_GET_PORTFOLIO_TRADES,BASE_URL_GET_LAST_TOKEN_TRADES
+from config.config import API_KEY, BASE_URL_TOKEN, BASE_URL_MARKET_STATS,BASE_URL_TOKEN_OHLCV,BASE_URL_QUOTE,BASE_URL_TOKEN_CHG,BASE_URL_GET_PORTFOLIO_POS,BASE_URL_GET_PORTFOLIO_TRENDED_VALUE,BASE_URL_GET_PORTFOLIO_TRADES,BASE_URL_GET_LAST_TOKEN_TRADES,BASE_URL_TOKEN_LOANS
 import pandas as pd
 
 # Header
@@ -35,14 +35,18 @@ def get_token_by_id(token_id):
         print(f"Error when retrieving token data: {e}")
         return None
 
-def get_loans_by_id(token_id):
+def get_loans_by_id(token_id, sortBy, order,page, perPage):
     """gets loans of tokens."""
     params = {
-        "unit": token_id
+        "unit": token_id,
+        "SortBy": sortBy,
+        "order": order,
+        "page": page,
+        "perPage": perPage
     }
 
     try:
-        response = requests.get(BASE_URL_LOANS, headers=HEADERS, params=params)
+        response = requests.get(BASE_URL_TOKEN_LOANS, headers=HEADERS, params=params)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
@@ -127,29 +131,6 @@ def get_token_price_chg(token_id, tf1, tf2, tf3):
         print(f"Error when retrieving token price change data: {e}")
         return None
     
-def get_token_price_indicators(unit, intervall, items, indicator, length,smoothingFactor, fastLength, slowLength ,signalLength,stdMult, quote):
-    """gets token price indicators"""
-    params = {
-        "unit": unit,
-        "interval": intervall,
-        "items":items,
-        "indicator": indicator,
-        "smoothingFactor": length,
-        "fastLength": smoothingFactor,
-        "fastLength": fastLength,
-        "slowLength": slowLength,
-        "signalLength":signalLength,
-        "stdMult": stdMult,
-        "quote": quote
-    }
-    try:
-        response = requests.get(BASE_URL_TOKEN_CHG, headers=HEADERS, params=params)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error when retrieving token price indicator data: {e}")
-        return None
-    
 def get_token_trading_stats(tokenid, timeframe):
     """get token traiding statistics """
     params = {
@@ -205,19 +186,6 @@ def get_portfolio_trended_value(address, timeframe, quote):
         print(f"Error when retrieving portfolio trade history: {e}")
         return None
     
-def get_top_token_by_mc(mc_type, perPage):
-    """get_top_token_by_mc"""
-    params = {
-        "type": mc_type,
-        "perPage": perPage
-    }
-    try:
-        response = requests.get(BASE_URL_GET_TOKEN_BY_MC, headers=HEADERS, params=params)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error when retrieving portfolio trade history: {e}")
-        return None
 
 def get_last_token_trades(timeframe, unit, minAmount, sortBy,perPage):
     """gets last trades for a spec. token"""

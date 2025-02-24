@@ -44,6 +44,8 @@ BASE_URL_MARKET_STATS = "https://openapi.taptools.io/api/v1/market/stats"
 # Example Response = { "price": 0.61 }
 BASE_URL_QUOTE = "https://openapi.taptools.io/api/v1/token/quote"
 
+BASE_URL_TOKEN_LOANS = "https://openapi.taptools.io/api/v1/token/debt/loans"
+
 # Basic Token Info
 # Method: get_token_by_id(token_id) Example: get_token_by_id("8fef2d34078659493ce161a6c7fba4b56afefa8535296a5743f6958741414441")
 # token_id = Token unit (policy + hex name)

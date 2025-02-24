@@ -9,33 +9,7 @@
     ],
     "sections": [
         {
-            "type": "portfolio",
-            "font_size": 20,
-            "header_size": 22,
-            "value_size": 30,
-            "chart_size": [
-                180,
-                140
-            ],
-            "image_size": 30,
-            "color": "white",
-            "address": "stake1uxhvr22njt6fvq8jwyv958vcc9r2pa8q8zwk9t5nxvlfe7sz82fr7",
-            "refresh": 100000,
-            "innerWidgets": [
-                "adabalance",
-                "adavalue",
-                "chart",
-                "tokens",
-                "trades",
-                "lppos"
-            ],
-            "position": [
-                0,
-                0
-            ]
-        },
-        {
-            "type": "lasttrades",
+            "type": "exploans",
             "font_size": 22,
             "header_size": 24,
             "images_size": 30,
@@ -43,7 +17,24 @@
             "count": 10,
             "ticker": "SNEK",
             "refesh": 100000,
-            "value": 1000,
+            "position": [
+                0,
+                0
+            ]
+        },
+        {
+            "type": "weather",
+            "font_size": 40,
+            "header_size": 24,
+            "images_size": 250,
+            "fc_image_size": 90,
+            "fc_front_size": 20,
+            "color": "white",
+            "geo": [
+                52.52,
+                13.4
+            ],
+            "refesh": 100000,
             "position": [
                 0,
                 1

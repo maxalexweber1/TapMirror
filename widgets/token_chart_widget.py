@@ -11,7 +11,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class TokenChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        #self.setFixedSize(800, 400) 
         self.update_chart([])
 
     def update_chart(self, data):

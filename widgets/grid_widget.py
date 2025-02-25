@@ -1,6 +1,5 @@
-import json
+
 from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QVBoxLayout
-from PyQt5.QtCore import Qt, QTimer
 from widgets.token_widget import TokenWidget
 from widgets.clock_widget import ClockWidget
 from widgets.market_data_widget import MarketDataWidget
@@ -9,29 +8,19 @@ from widgets.token_trades_widget import TokenTradesWidget
 from widgets.weather_widget import WeatherWidget
 from widgets.token_loans_widget import TokenLoansWidget
 
-
-def load_layout_config():
-    with open("./config/layout_config.json", "r") as file:
-        return json.load(file)
-
-
-class TapMirrorUI(QWidget):
-    def __init__(self):
+class GridWidget(QWidget):
+    def __init__(self, config):
         super().__init__()
-        self.config = load_layout_config()
+        self.config = config
         self.ui_elements = {}
         self.initUI()
         self.update_data()
 
     def initUI(self):
-        self.setWindowTitle("TapMirror")
-        self.setGeometry(0, 0, 800, 480)
-        self.showFullScreen()
-
         layout = QGridLayout()
         layout.setSpacing(5)
 
-        for section in self.config["sections"]:
+        for section in self.config:
             row, col = section["position"]
             section_frame = QFrame()
             section_frame.setFrameStyle(QFrame.Box | QFrame.Plain)
@@ -66,7 +55,9 @@ class TapMirrorUI(QWidget):
             section_frame.setLayout(frame_layout)
 
             layout.addWidget(section_frame, row, col)
-
+            layout.setRowStretch(row, 1)
+            layout.setColumnStretch(col, 1)
+          
         self.setLayout(layout)
         self.setStyleSheet("background-color: #000000;")
 
@@ -77,6 +68,3 @@ class TapMirrorUI(QWidget):
             except Exception as e: 
                 print(f"Error while Update: {key}: {e}")
               
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            self.close()

@@ -26,41 +26,39 @@ class TokenWidget(QWidget):
         color = self.config.get("color", "white")
         pic_scale = self.config.get("images_size",20)
         style = f"font-size: {font_size}px; color: {color};"
-        chart_l, chart_h = self.config["chart_size"]
+        col_index = 0 
 
         for ticker in self.config["tokens"]:
             grid = QGridLayout()
             widget_dict = {}
             if "logo" in inner_widgets:
                 image_label = QLabel()
-                image_path = f"assets/{ticker}.png"
+                image_path = f"assets/token/{ticker}.png"
                 if os.path.exists(image_path):
                     pixmap = QPixmap(image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     image_label.setPixmap(pixmap)
                 else:
                     image_label.setText("[No Image]")
                 image_label.setFixedSize(pic_scale, pic_scale)
-                image_label.setAlignment(Qt.AlignVCenter)
+                image_label.setAlignment(Qt.AlignCenter)
                 grid.addWidget(image_label)
                 grid.setColumnMinimumWidth(0, pic_scale)
                 widget_dict["image"] = image_label
-
+                
             if "ticker" in inner_widgets:
                 ticker_label = QLabel(f"{ticker}")
                 ticker_label.setStyleSheet(style)
-                ticker_label.setAlignment(Qt.AlignVCenter)
+                ticker_label.setAlignment(Qt.AlignCenter)
                 grid.addWidget(ticker_label, 0, 1)
-                grid.setColumnMinimumWidth(1, 100)
                 widget_dict["ticker"] = ticker_label
-
+                
             if "price" in inner_widgets:
                 price_label = QLabel("Loading... ₳")
                 price_label.setStyleSheet(style)
-                price_label.setAlignment(Qt.AlignVCenter)
-                grid.addWidget(price_label, 0, 1)
-                grid.setColumnMinimumWidth(1, 200)
+                price_label.setAlignment(Qt.AlignCenter)
+                grid.addWidget(price_label, 0, 2)
                 widget_dict["price"] = price_label
-
+                
             if "riskrating" in inner_widgets:
                 risk_image_label = QLabel()    
                 fingerprint =  TOKEN_PRINT_MAPPING.get(ticker)
@@ -71,32 +69,29 @@ class TokenWidget(QWidget):
                     if os.path.exists(rating_image_path):
                         pixmap = QPixmap(rating_image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                         risk_image_label.setPixmap(pixmap)
+                        risk_image_label.setAlignment(Qt.AlignCenter)
                     else:
                        risk_image_label.setText("[N/A]")
                        risk_image_label.setFixedSize(pic_scale, pic_scale)
-                       risk_image_label.setAlignment(Qt.AlignVCenter)
-                    grid.addWidget(risk_image_label, 0, 2)
-                    grid.setColumnMinimumWidth(2, 70)
+                       risk_image_label.setAlignment(Qt.AlignCenter)
+                    grid.addWidget(risk_image_label, 0, 3)
                     widget_dict["risk_image"] = risk_image_label
-
+                    
             if "change" in inner_widgets:
                 change_label = QLabel("Loading...")
                 change_label.setStyleSheet(style)
-                change_label.setAlignment(Qt.AlignVCenter)
-                grid.addWidget(change_label, 0, 3)
-                grid.setColumnMinimumWidth(3, 300)
+                change_label.setAlignment(Qt.AlignCenter)
+                grid.addWidget(change_label, 0, 4)
                 widget_dict["change"] = change_label
-
+                
             if "chart" in inner_widgets:
                 chart_widget = TokenChartWidget(self)
-                chart_widget.setFixedSize(chart_l, chart_h)
-                grid.addWidget(chart_widget, 0, 4)
-                grid.setColumnMinimumWidth(4, 300)
+                chart_widget.setFixedSize(round(pic_scale * 1.5) , pic_scale)
+                grid.addWidget(chart_widget, 0, 5)
                 widget_dict["chart"] = chart_widget
-
+                
             layout.addLayout(grid)
             self.token_widgets[ticker] = widget_dict
-
         self.setLayout(layout)
 
     def update_data(self, data=None):

@@ -1,27 +1,29 @@
 {
-    "grid_size": [
-        2,
-        2
-    ],
     "screen_size": [
         300,
         400
     ],
-    "sections": [
+    "header_sections": [
         {
-            "type": "exploans",
-            "font_size": 22,
-            "header_size": 24,
-            "images_size": 30,
+            "type": "marketdata",
+            "font_size": 30,
             "color": "white",
-            "count": 10,
-            "ticker": "SNEK",
             "refesh": 100000,
-            "position": [
-                0,
-                0
+            "innerWidgets": [
+                "quote",
+                "activeaddresses",
+                "dexvolume"
             ]
         },
+        {
+            "type": "clock",
+            "font_size": 30,
+            "color": "white",
+            "size": "small",
+            "refesh": "10000"
+        }
+    ],
+    "grid_sections": [
         {
             "type": "weather",
             "font_size": 40,
@@ -41,28 +43,9 @@
             ]
         },
         {
-            "type": "market_data",
-            "font_size": 30,
-            "color": "white",
-            "refesh": 100000,
-            "innerWidgets": [
-                "quote",
-                "activeaddresses",
-                "dexvolume"
-            ],
-            "position": [
-                1,
-                1
-            ]
-        },
-        {
             "type": "tokens",
-            "font_size": 22,
-            "chart_size": [
-                200,
-                150
-            ],
-            "images_size": 40,
+            "font_size": 20,
+            "images_size": 60,
             "color": "white",
             "refesh": 100000,
             "innerWidgets": [
@@ -70,13 +53,13 @@
                 "ticker",
                 "price",
                 "change",
-                "chart",
-                "riskrating"
+                "chart"
             ],
             "tokens": [
                 "MIN",
                 "SNEK",
                 "IAG",
+                "LQ",
                 "LENFI"
             ],
             "position": [

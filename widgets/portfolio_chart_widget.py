@@ -11,7 +11,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class PortfolioChartWidget(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        #self.setFixedSize(800, 400)
         self.update_chart([])
  
     def update_chart(self, data):
@@ -30,7 +29,7 @@ class PortfolioChartWidget(QLabel):
             color="white",
             marker="o",
             linestyle="-",
-            lw=5,
+            lw=7,
             solid_capstyle="round",
             solid_joinstyle="round")
         ax.axis('off')

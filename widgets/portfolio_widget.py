@@ -45,14 +45,14 @@ class PortfolioWidget(QWidget):
             if "adabalance" in inner_widgets:
                 self.balance_label = QLabel("Loading...")
                 self.balance_label.setStyleSheet(self.get_style(font_size=value_size, bold=True))
-                self.balance_label.setAlignment(Qt.AlignVCenter)
+                self.balance_label.setAlignment(Qt.AlignCenter)
                 top_labels_layout.addWidget(self.balance_label)
 
            
             if "adavalue" in inner_widgets:
                 self.value_label = QLabel("Loading...")
                 self.value_label.setStyleSheet(self.get_style(font_size=value_size, bold=True))
-                self.value_label.setAlignment(Qt.AlignVCenter)
+                self.value_label.setAlignment(Qt.AlignCenter)
                 top_labels_layout.addWidget(self.value_label)
 
             if "chart" in inner_widgets:

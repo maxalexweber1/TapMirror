@@ -1,8 +1,4 @@
 {
-    "screen_size": [
-        300,
-        400
-    ],
     "header_sections": [
         {
             "type": "marketdata",
@@ -43,6 +39,19 @@
             ]
         },
         {
+            "type": "rssfeed",
+            "font_size": 20,
+            "header_size": 24,
+            "name": "@TapInWithTapTools",
+            "feed_num": 4,
+            "color": "white",
+            "refesh": 100000,
+            "position": [
+                1,
+                1
+            ]
+        },
+        {
             "type": "tokens",
             "font_size": 20,
             "images_size": 60,
@@ -67,6 +76,5 @@
                 0
             ]
         }
-    ],
-    "display_settings": {}
+    ]
 }

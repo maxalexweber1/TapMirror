@@ -7,6 +7,7 @@ from widgets.portfolio_widget import PortfolioWidget
 from widgets.token_trades_widget import TokenTradesWidget
 from widgets.weather_widget import WeatherWidget
 from widgets.token_loans_widget import TokenLoansWidget
+from widgets.rss_feed_widget import MediumRSSWidget
 
 class GridWidget(QWidget):
     def __init__(self, config):
@@ -49,6 +50,9 @@ class GridWidget(QWidget):
             elif section["type"] == "exploans":
                 widget = TokenLoansWidget(section)
                 self.ui_elements[f"exploans_{row}_{col}"] = widget
+            elif section["type"] == "rssfeed":
+                widget = MediumRSSWidget(section)
+                self.ui_elements[f"rssfeed_{row}_{col}"] = widget
 
             frame_layout = QVBoxLayout()
             frame_layout.addWidget(widget)

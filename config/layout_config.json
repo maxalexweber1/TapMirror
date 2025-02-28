@@ -21,10 +21,34 @@
     ],
     "grid_sections": [
         {
+            "type": "portfolio",
+            "font_size": 20,
+            "value_size": 30,
+            "chart_size": [
+                180,
+                140
+            ],
+            "image_size": 30,
+            "color": "white",
+            "address": "stake1u9qljmz94se6cfcnqv0yudwsa48pe0yxzuulna3xmnhyaxq84dzc4",
+            "refresh": 100000,
+            "innerWidgets": [
+                "adabalance",
+                "adavalue",
+                "chart",
+                "tokens",
+                "trades",
+                "lppos"
+            ],
+            "position": [
+                0,
+                0
+            ]
+        },
+        {
             "type": "weather",
-            "font_size": 40,
-            "header_size": 24,
-            "images_size": 250,
+            "font_size": 50,
+            "images_size": 350,
             "fc_image_size": 90,
             "fc_front_size": 20,
             "color": "white",
@@ -40,8 +64,8 @@
         },
         {
             "type": "rssfeed",
-            "font_size": 20,
-            "header_size": 24,
+            "font_size": 15,
+            "header_size": 20,
             "name": "@TapInWithTapTools",
             "feed_num": 4,
             "color": "white",
@@ -49,31 +73,6 @@
             "position": [
                 1,
                 1
-            ]
-        },
-        {
-            "type": "tokens",
-            "font_size": 20,
-            "images_size": 60,
-            "color": "white",
-            "refesh": 100000,
-            "innerWidgets": [
-                "logo",
-                "ticker",
-                "price",
-                "change",
-                "chart"
-            ],
-            "tokens": [
-                "MIN",
-                "SNEK",
-                "IAG",
-                "LQ",
-                "LENFI"
-            ],
-            "position": [
-                1,
-                0
             ]
         }
     ]

@@ -1,74 +1,42 @@
-
-from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QVBoxLayout
-from widgets.token_widget import TokenWidget
-from widgets.clock_widget import ClockWidget
-from widgets.market_data_widget import MarketDataWidget
-from widgets.portfolio_widget import PortfolioWidget
-from widgets.token_trades_widget import TokenTradesWidget
-from widgets.weather_widget import WeatherWidget
-from widgets.token_loans_widget import TokenLoansWidget
-from widgets.rss_feed_widget import MediumRSSWidget
+import json
+from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout
+from widgets.widget_factory import WidgetFactory
+from widgets.style_manager import StyleManager
 
 class GridWidget(QWidget):
     def __init__(self, config):
         super().__init__()
-        self.config = config
-        self.ui_elements = {}
+        self.config = config if isinstance(config, dict) else {"grid_sections": config}  
+        self.style_manager = StyleManager()
         self.initUI()
-        self.update_data()
+        self.setStyleSheet("background-color: black; color: white;")  
 
     def initUI(self):
         layout = QGridLayout()
-        layout.setSpacing(5)
+        layout.setSpacing(10)  
 
-        for section in self.config:
-            row, col = section["position"]
-            section_frame = QFrame()
-            section_frame.setFrameStyle(QFrame.Box | QFrame.Plain)
-            section_frame.setStyleSheet(
-                "border: 1px solid gray; border-radius: 5px; background-color: #000000;"
-            )
+        self.widgets = []  
 
-            if section["type"] == "tokens":
-                widget = TokenWidget(section)
-                self.ui_elements[f"tokens_{row}_{col}"] = widget
-            elif section["type"] == "clock":
-                widget = ClockWidget(section)
-                self.ui_elements[f"clock_{row}_{col}"] = widget
-            elif section["type"] == "market_data":
-                widget = MarketDataWidget(section)
-                self.ui_elements[f"market_data_{row}_{col}"] = widget
-            elif section["type"] == "portfolio":
-                widget = PortfolioWidget(section)
-                self.ui_elements[f"portfolio_{row}_{col}"] = widget
-            elif section["type"] == "lasttrades":
-                widget = TokenTradesWidget(section)
-                self.ui_elements[f"trades_{row}_{col}"] = widget
-            elif section["type"] == "weather":
-                widget = WeatherWidget(section)
-                self.ui_elements[f"weather_{row}_{col}"] = widget
-            elif section["type"] == "exploans":
-                widget = TokenLoansWidget(section)
-                self.ui_elements[f"exploans_{row}_{col}"] = widget
-            elif section["type"] == "rssfeed":
-                widget = MediumRSSWidget(section)
-                self.ui_elements[f"rssfeed_{row}_{col}"] = widget
+        for section in self.config.get("grid_sections", []):
+            if not isinstance(section, dict):
+                print(f"Warning: Invalid section format: {section}")
+                continue
+            row, col = section.get("position", [0, 0])  
+            widget_type = section.get("type")
+            if not widget_type:
+                print(f"Warning: Missing 'type' key in section: {section}")
+                continue
+            widget = WidgetFactory.create_widget(widget_type, section)
+            if widget:
+                # Rahmen direkt auf das Widget anwenden, kein QFrame
+                widget.setStyleSheet("border: 1px solid white; border-radius: 8px;")
+                layout.addWidget(widget, row, col)  # Direkt ins GridLayout
+                self.widgets.append(widget)
 
-            frame_layout = QVBoxLayout()
-            frame_layout.addWidget(widget)
-            section_frame.setLayout(frame_layout)
-
-            layout.addWidget(section_frame, row, col)
-            layout.setRowStretch(row, 1)
-            layout.setColumnStretch(col, 1)
-          
         self.setLayout(layout)
-        self.setStyleSheet("background-color: #000000;")
 
     def update_data(self):
-        for key, widget in self.ui_elements.items():
-            try:
+        """Initial update for all widgets in the grid."""
+        for widget in self.widgets:
+            if hasattr(widget, 'update_data'):
                 widget.update_data()
-            except Exception as e: 
-                print(f"Error while Update: {key}: {e}")
-              

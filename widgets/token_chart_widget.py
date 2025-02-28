@@ -39,6 +39,7 @@ class TokenChartWidget(QLabel):
             solid_capstyle="round",
             solid_joinstyle="round")
         ax.axis('off')
+    
        
         canvas = FigureCanvas(fig)
         canvas.draw()

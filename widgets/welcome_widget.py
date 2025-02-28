@@ -6,6 +6,7 @@ class WelcomeWidget(QWidget):
     def __init__(self, config):
         super().__init__()
         self.config = config
+        self.style_manager = StyleManager()
         self.initUI()
 
         refresh = self.config.get("refresh", 100000)
@@ -15,8 +16,8 @@ class WelcomeWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
-        font_size = self.config.get("font_size", 50)
-        color = self.config.get("color", "white")
+        font_size = self.style_manager.get_scaled_font_size("welcome")
+        color = self.style_manager.get_style("welcome", "color", "white")
         style = f"font-size: {font_size}px; color: {color};"
 
         self.label = QLabel("Loading...")
@@ -25,15 +26,22 @@ class WelcomeWidget(QWidget):
         layout.addWidget(self.label)
 
         self.setLayout(layout)
+        self.update_data()
 
     def get_greeting(self):
+        greetings = self.config.get("greetings", {
+            "morning": "Good morning!",
+            "afternoon": "Good afternoon!",
+            "evening": "Good evening!"
+        })
+        
         hour = datetime.now().hour
         if hour < 12:
-            return "Good morning!"
+            return greetings.get("morning", "Good morning!")
         elif hour < 18:
-            return "Good afternoon!"
+            return greetings.get("afternoon", "Good afternoon!")
         else:
-            return "Good evening!"
+            return greetings.get("evening", "Good evening!")
 
     def update_data(self, data=None):
         greeting = self.get_greeting()

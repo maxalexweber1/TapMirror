@@ -145,15 +145,62 @@ This section makes it possible to combine different tokens with variable subwidg
         }
 
 4. **tokenloans**
-5. **tokentrades**
-6. **weather**
-7. **rssfeed**
 {
-            "type": "rssfeed",
+            "type": "token_loans", 
+            "font_size": 22,
+            "header_size": 24,
+            "images_size": 35,
+            "color": "white",
+            "count": 10,
+            "ticker": "SNEK",
+            "refesh": 100000,
+            "position": [
+                0,
+                0
+            ]
+        },
+5. **tokentrades**
+{
+            "type": "last_trades",
+            "font_size": 22,
+            "header_size": 24,
+            "images_size": 30,
+            "color": "white",
+            "count": 10,
+            "ticker": "SNEK",
+            "refesh": 100000,
+            "value": 1000,
+            "position": [
+                0,
+                1
+            ]
+        },
+6. **weather**
+ {
+            "type": "weather",
             "font_size": 40,
             "header_size": 24,
-            "feed": "@TapInWithTapTools",
-            "feed_num": 3,
+            "images_size": 250,
+            "fc_image_size": 90,
+            "fc_front_size": 20,
+            "color": "white",
+            "geo": [
+                52.52,
+                13.4
+            ],
+            "refesh": 100000,
+            "position": [
+                0,
+                1
+            ]
+        },
+7. **rssfeed**
+ {
+            "type": "rssfeed",
+            "font_size": 15,
+            "header_size": 20,
+            "name": "@TapInWithTapTools",
+            "feed_num": 4,
             "color": "white",
             "refesh": 100000,
             "position": [
@@ -162,6 +209,32 @@ This section makes it possible to combine different tokens with variable subwidg
             ]
         },
 7. **welcome**
+
+ {
+            "type": "tokens",
+            "font_size": 25,
+            "images_size": 70,
+            "color": "white",
+            "refesh": 100000,
+            "innerWidgets": [
+                "logo",
+                "ticker",
+                "price",
+                "change",
+                "chart"
+            ],
+            "tokens": [
+                "MIN",
+                "SNEK",
+                "IAG",
+                "LQ",
+                "LENFI"
+            ],
+            "position": [
+                1,
+                0
+            ]
+        }
 
 ### Add new Token
 in config/config.py all tokens that are currently available are listed, if you want to add a new token, it must be added there with its corresponding assetID and under assets/tokens add the corresponding .png image for example (SNEK.png)

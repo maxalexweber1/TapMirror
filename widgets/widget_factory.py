@@ -6,6 +6,7 @@ from widgets.token_trades_widget import TokenTradesWidget
 from widgets.weather_widget import WeatherWidget
 from widgets.token_loans_widget import TokenLoansWidget
 from widgets.rss_feed_widget import MediumRSSWidget
+from widgets.welcome_widget import WelcomeWidget
 
 class WidgetFactory:
     """Factory class to dynamically create widgets based on their type."""
@@ -19,6 +20,7 @@ class WidgetFactory:
         "weather": WeatherWidget,
         "token_loans": TokenLoansWidget,
         "rssfeed": MediumRSSWidget,
+        "welcome": WelcomeWidget,
     }
 
     @staticmethod

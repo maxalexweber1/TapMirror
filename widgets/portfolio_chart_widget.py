@@ -23,8 +23,8 @@ class PortfolioChartWidget(QLabel):
         df["time"] = pd.to_datetime(df["time"])
 
         fig, ax = plt.subplots(figsize=(6, 3))
-        fig.patch.set_facecolor("black")
-        ax.set_facecolor("black")
+        fig.patch.set_facecolor("#1A1A1A")
+        ax.set_facecolor("#1A1A1A")
         ax.plot(df["time"], df["value"],
             color="white",
             marker="o",

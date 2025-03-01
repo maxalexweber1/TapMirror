@@ -27,7 +27,7 @@ class TokenTradesWidget(QWidget):
         header_size = self.style_manager.get_scaled_font_size("token_trades")
         
         frame = QFrame()
-        frame.setStyleSheet("border: 2px solid white; border-radius: 5px;")
+        frame.setStyleSheet("border: 2px; border-radius: 5px;")
         frame_layout = QVBoxLayout()
         
         self.trade_table = QGridLayout()

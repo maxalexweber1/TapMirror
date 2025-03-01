@@ -1,8 +1,8 @@
 {
     "header_sections": [
         {
-            "type": "marketdata",
-            "font_size": 30,
+            "type": "market_data",
+            "font_size": 50,
             "color": "white",
             "refesh": 100000,
             "innerWidgets": [
@@ -13,22 +13,21 @@
         },
         {
             "type": "clock",
-            "font_size": 30,
+            "font_size": 50,
             "color": "white",
-            "size": "small",
-            "refesh": "10000"
+            "refesh": 10000
         }
     ],
     "grid_sections": [
         {
             "type": "portfolio",
-            "font_size": 20,
-            "value_size": 30,
+            "font_size": 25,
+            "header_size": 50,
             "chart_size": [
-                180,
-                140
+                300,
+                180
             ],
-            "image_size": 30,
+            "image_size": 75,
             "color": "white",
             "address": "stake1u9qljmz94se6cfcnqv0yudwsa48pe0yxzuulna3xmnhyaxq84dzc4",
             "refresh": 100000,
@@ -38,6 +37,7 @@
                 "chart",
                 "tokens",
                 "trades",
+                "nfts",
                 "lppos"
             ],
             "position": [
@@ -48,27 +48,32 @@
         {
             "type": "weather",
             "font_size": 50,
-            "images_size": 350,
-            "fc_image_size": 90,
-            "fc_front_size": 20,
+            "images_size": 400,
+            "fc_image_size": 130,
+            "fc_front_size": 30,
             "color": "white",
+            "refresh": 100000,
             "geo": [
                 52.52,
                 13.4
             ],
-            "refesh": 100000,
+            "innerWidgets": [
+                "current",
+                "forecast"
+            ],
             "position": [
                 0,
                 1
             ]
         },
         {
-            "type": "rssfeed",
-            "font_size": 15,
-            "header_size": 20,
-            "name": "@TapInWithTapTools",
-            "feed_num": 4,
+            "type": "token_loans",
+            "font_size": 35,
+            "header_size": 40,
+            "images_size": 40,
             "color": "white",
+            "count": 10,
+            "ticker": "SNEK",
             "refesh": 100000,
             "position": [
                 1,

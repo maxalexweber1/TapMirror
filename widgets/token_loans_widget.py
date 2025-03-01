@@ -23,29 +23,21 @@ class TokenLoansWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
-        font_size = self.style_manager.get_scaled_font_size("token_loans")
         color = self.style_manager.get_style("token_loans", "color", "white")
-        header_size = self.style_manager.get_scaled_font_size("token_loans")
-        
-        frame = QFrame()
-        frame.setStyleSheet("border: 2px solid white; border-radius: 5px;")
-        frame_layout = QVBoxLayout()
+        header_size = self.style_manager.get_scaled_header_size("token_loans")
         
         self.loan_table = QGridLayout()
-        headers = ["Token", "Exp. in", "Value", "Amount", "Value", "Health", "Protocol"]
+        headers = ["Token", "Exp. in", "Dept", "Collateral", "Health", "Protocol"]
         for col_idx, header in enumerate(headers):
             loan_header_label = QLabel(header)
             loan_header_label.setStyleSheet(f"font-size: {header_size}px; color: {color}; font-weight: bold;")
-            loan_header_label.setAlignment(Qt.AlignCenter)
+            loan_header_label.setAlignment(Qt.AlignLeft)
             self.loan_table.addWidget(loan_header_label, 0, col_idx)
-        
-        frame_layout.addLayout(self.loan_table)
-        frame.setLayout(frame_layout)
-        layout.addWidget(frame)
+      
+        layout.addLayout(self.loan_table)
         self.setLayout(layout)
 
     def update_data(self):
-        self._clear_table()
         
         font_size = self.style_manager.get_scaled_font_size("token_loans")
         color = self.style_manager.get_style("token_loans", "color", "white")
@@ -53,38 +45,36 @@ class TokenLoansWidget(QWidget):
         ticker = self.config.get("ticker", "ADA")
         token_id = TOKEN_ID_MAPPING.get(ticker, "Unknown")
         
-        # Re-add headers
-        headers = ["Token", "Exp. in", "Value", "Amount", "Value", "Health", "Protocol"]
-        for col_idx, header in enumerate(headers):
-            loan_header_label = QLabel(header)
-            loan_header_label.setStyleSheet(f"font-size: {font_size}px; color: {color}; font-weight: bold;")
-            loan_header_label.setAlignment(Qt.AlignCenter)
-            self.loan_table.addWidget(loan_header_label, 0, col_idx)
-        
-        loan_data = get_loans_by_id(token_id, "expiration", "desc", 1, loan_count)
+        loan_data = get_loans_by_id(token_id, "expiration", "desc", 1, 100)
         loans = NextExpLoans(loan_data).loans
+
+        loans = loans[:loan_count]
         
         if not loans:
             return
         
         for row_idx, loan in enumerate(loans, start=1):
-            self._add_loan_row(loan, row_idx, font_size, color)
+            self._add_loan_row(loan, row_idx, font_size, color, ticker)
 
     def _clear_table(self):
-        for i in range(self.loan_table.count() - 1, -1, -1):
+    # Löscht alle Widgets, außer die in Zeile 0 (Header)
+        for i in reversed(range(self.loan_table.count())):
             item = self.loan_table.itemAt(i)
-            if item and item.widget():
-                item.widget().deleteLater()
-                self.loan_table.removeWidget(item.widget())
+            row, col, rowSpan, colSpan = self.loan_table.getItemPosition(i)
+            if row > 0:  # Nur Zeilen > 0 löschen
+                widget = item.widget()
+                if widget:
+                    widget.deleteLater()
+                    self.loan_table.removeWidget(widget)
 
-    def _add_loan_row(self, loan, row_idx, font_size, color):
+    def _add_loan_row(self, loan, row_idx, font_size, color, ticker):
         image_label = QLabel()
-        image_path = f"assets/token/{loan.tokenName}.png"
-        pic_scale = self.style_manager.get_scaled_value("token_loans", "images_size", 60)
+        image_path = f"assets/token/{ticker}.png"
+        image_scale = self.style_manager.get_scaled_value("token_loans", "image_size", 60)
         
-        pixmap = QPixmap(pic_scale, pic_scale)
+        pixmap = QPixmap(image_scale, image_scale)
         if os.path.exists(image_path):
-            pixmap = QPixmap(image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            pixmap = QPixmap(image_path).scaled(image_scale, image_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         image_label.setPixmap(pixmap)
         image_label.setAlignment(Qt.AlignCenter)
         self.loan_table.addWidget(image_label, row_idx, 0)
@@ -92,7 +82,7 @@ class TokenLoansWidget(QWidget):
         now = datetime.now()
         exp_time = datetime.fromtimestamp(loan.expiration)
         delta_time = (exp_time - now).total_seconds()
-        time_to = f"in {round(delta_time / 3600)}h"
+        time_to = f"in {round(delta_time / 86400)} days"
         
         # Determine color for health value
         health_value = float(loan.health)
@@ -103,28 +93,31 @@ class TokenLoansWidget(QWidget):
         else:
             health_color = "green"
         
+        formatted_collateral = StyleManager.format_number(round(float(loan.colateralAmount)))
+        
         labels = [
             (time_to, 1),
             (f"{round(float(loan.debtAmount))} ₳", 2),
-            (f"{round(float(loan.colateralAmount))}", 3),
-            (f"{round(float(loan.collateralValue))} ₳", 4),
-            (f"{round(float(loan.health),2)}", 5, health_color),
-            (f"{loan.protocol}", 6)
-        ]
+            (f"{formatted_collateral} ( {round(float(loan.collateralValue))} ₳ )", 3),
+            (f"{round(float(loan.health),2)}", 4, health_color),
+            (f"{loan.protocol}", 5)
+]
         
         for label_data in labels:
             text = label_data[0]
             col_idx = label_data[1]
             label_color = label_data[2] if len(label_data) > 2 else color
             
-            label = QLabel(str(text))
+            label = QLabel(text)
             label.setStyleSheet(f"font-size: {font_size}px; color: {label_color};")
-            label.setAlignment(Qt.AlignCenter)
+            label.setAlignment(Qt.AlignLeft)
             self.loan_table.addWidget(label, row_idx, col_idx)
 
 class NextExpLoans:
     def __init__(self, data):
         self.loans = [Loan(tr) for tr in data]
+        self.loans.sort(key=lambda loan: loan.expiration)
+        
 
 class Loan:
     def __init__(self, data):

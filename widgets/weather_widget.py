@@ -25,23 +25,17 @@ class WeatherWidget(QWidget):
         header_size = self.style_manager.get_scaled_header_size("weather")
         color = self.style_manager.get_style("weather", "color", "white")
         style = f"font-size: {header_size}px; color: {color};"
-        image_scale = self.style_manager.get_scaled_image_size("weather", "images_size")
+        image_size = self.style_manager.get_scaled_image_size("weather", "image_size")
         forecast_image_scale = self.style_manager.get_scaled_image_size("weather", "fc_image_size")
         forecast_font_size = self.style_manager.get_scaled_font_size("weather")
         forecast_style = f"font-size: {forecast_font_size}px; color: {color};"
 
-    # Stil für die Rahmen (QFrame)
-        #frame_style = "border: 1px solid gray; border-radius: 5px; background-color: rgba(255, 255, 255, 0.1);"
-
         inner_widgets = self.config.get("innerWidgets", ["current", "forecast"])
     
         if "current" in inner_widgets:
-            # QFrame für den aktuellen Wetterbereich
-            #current_frame = QFrame()
-            #current_frame.setStyleSheet(frame_style)
+
             current_box = QHBoxLayout()
         
-            # Kein addStretch hier, um den Rahmen eng zu halten
             self.current_label = QLabel("Loading...")
             self.current_label.setStyleSheet(style)
             self.current_label.setAlignment(Qt.AlignCenter)
@@ -49,19 +43,16 @@ class WeatherWidget(QWidget):
 
             self.current_image_label = QLabel()
             self.current_image_label.setAlignment(Qt.AlignCenter)
-            self.current_image_label.setFixedSize(image_scale, image_scale)
+            self.current_image_label.setFixedSize(image_size, image_size)
             self.current_image_label.setStyleSheet(style)
             current_box.addWidget(self.current_image_label, alignment=Qt.AlignCenter)
 
-            # Layout-Abstände minimieren
-            current_box.setContentsMargins(5, 5, 5, 5)  # Minimaler Innenrand
-            current_box.setSpacing(10)  # Abstand zwischen Elementen
+            current_box.setContentsMargins(5, 5, 5, 5)  
+            current_box.setSpacing(10)  
 
-            #current_frame.setLayout(current_box)
             layout.addLayout(current_box)
 
         if "forecast" in inner_widgets:
-            # QFrame für den Vorhersagebereich
             forecast_frame = QFrame()
             forecast_frame.setStyleSheet(forecast_style)
             forecast_box = QHBoxLayout()
@@ -89,27 +80,24 @@ class WeatherWidget(QWidget):
                 temp_label.setAlignment(Qt.AlignCenter)
                 day_box.addWidget(temp_label)
 
-                # Layout-Abstände innerhalb von day_box minimieren
-                day_box.setContentsMargins(0, 0, 0, 0)  # Kein Innenrand
-                day_box.setSpacing(5)  # Kleiner Abstand zwischen Elementen
+               
+                day_box.setContentsMargins(0, 0, 0, 0)  
+                day_box.setSpacing(5)  
 
                 forecast_box.addLayout(day_box)
                 self.forecast_labels.append(label)
                 self.forecast_images.append(image_label)
                 self.forecast_temps.append(temp_label)
 
-            # Layout-Abstände minimieren
-            forecast_box.setContentsMargins(5, 5, 5, 5)  # Minimaler Innenrand
-            forecast_box.setSpacing(10)  # Abstand zwischen den Tagen
+            forecast_box.setContentsMargins(5, 5, 5, 5)  
+            forecast_box.setSpacing(10)  
 
             forecast_frame.setLayout(forecast_box)
             layout.addWidget(forecast_frame)
 
-    # Optional: Stretch am Ende des Hauptlayouts, falls gewünscht
-        layout.addStretch(1)  # Nur im Hauptlayout, nicht in den Frames
+        layout.addStretch(1) 
         self.setLayout(layout)
 
-    # Die restlichen Methoden (_get_image_path_for_code und update_data) bleiben unverändert
     def _get_image_path_for_code(self, code, day=True):
         weather_map = {
             0: "clear_day.png", 1: "partly_cloudy_day.png", 2: "partly_cloudy_day.png", 3: "partly_cloudy_day.png",
@@ -122,9 +110,10 @@ class WeatherWidget(QWidget):
         return f"assets/weather/{file_name}" if day else f"assets/weather/{file_name.replace('_day', '_night')}"
 
     def update_data(self):
+        """Updates the prices, charts and change values of the tokens"""
         latitude = self.config.get("geo", [52.52, 13.4])[0]
         longitude = self.config.get("geo", [52.52, 13.4])[1]
-        image_scale = self.style_manager.get_scaled_image_size("weather", "images_size")
+        image_scale = self.style_manager.get_scaled_image_size("weather", "image_size")
         forecast_image_scale = self.style_manager.get_scaled_image_size("weather", "fc_image_size")
 
         try:

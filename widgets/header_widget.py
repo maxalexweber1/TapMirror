@@ -12,7 +12,6 @@ class HeaderWidget(QWidget):
         self.update_data()
 
     def initUI(self):
-        """Ensures the header stays in a single row and auto-sizes to content."""
         layout = QHBoxLayout()
         layout.setSpacing(30) 
         layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
@@ -27,7 +26,6 @@ class HeaderWidget(QWidget):
 
             if widget:
                 container = QFrame() 
-                container.setStyleSheet("border: none;") 
                 container_layout = QHBoxLayout()
                 container_layout.setContentsMargins(0, 0, 0, 0)  
                 container_layout.setAlignment(Qt.AlignVCenter)

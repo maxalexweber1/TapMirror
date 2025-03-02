@@ -1,7 +1,8 @@
 import requests
 
 def get_weather_data(latitude,longitude):
-  
+    """Get current weather data from the open meteo api for a special location """
+    
     url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m&hourly=weather_code"
 
     try:

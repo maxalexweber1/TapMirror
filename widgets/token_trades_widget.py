@@ -22,31 +22,23 @@ class TokenTradesWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
-        font_size = self.style_manager.get_scaled_font_size("token_trades")
         color = self.style_manager.get_style("token_trades", "color", "white")
         header_size = self.style_manager.get_scaled_font_size("token_trades")
-        
-        frame = QFrame()
-        frame.setStyleSheet("border: 2px; border-radius: 5px;")
-        frame_layout = QVBoxLayout()
         
         self.trade_table = QGridLayout()
         headers = ["Token", "Action", "Amount", "ADA", "Price", "Time"]
         
-        # Ensure headers are re-added
         for col_idx, header in enumerate(headers):
             trade_header_label = QLabel(header)
             trade_header_label.setStyleSheet(f"font-size: {header_size}px; color: {color}; font-weight: bold;")
-            trade_header_label.setAlignment(Qt.AlignCenter)
+            trade_header_label.setAlignment(Qt.AlignLeft)
             self.trade_table.addWidget(trade_header_label, 0, col_idx)
         
-        frame_layout.addLayout(self.trade_table)
-        frame.setLayout(frame_layout)
-        layout.addWidget(frame)
+        layout.addLayout(self.trade_table)
         self.setLayout(layout)
 
     def update_data(self):
-        self._clear_trade_rows()
+        self._clear_trade_table()
         
         font_size = self.style_manager.get_scaled_font_size("token_trades")
         color = self.style_manager.get_style("token_trades", "color", "white")
@@ -61,32 +53,27 @@ class TokenTradesWidget(QWidget):
         if not last_trades:
             return
         
-        # Re-add headers before adding rows
-        headers = ["Token", "Action", "Amount", "ADA", "Price", "Time"]
-        for col_idx, header in enumerate(headers):
-            trade_header_label = QLabel(header)
-            trade_header_label.setStyleSheet(f"font-size: {font_size}px; color: {color}; font-weight: bold;")
-            trade_header_label.setAlignment(Qt.AlignCenter)
-            self.trade_table.addWidget(trade_header_label, 0, col_idx)
-        
         for row_idx, trade in enumerate(last_trades, start=1):
             self._add_trade_row(trade, row_idx, font_size, color)
 
-    def _clear_trade_rows(self):
-        for i in range(self.trade_table.count() - 1, -1, -1):
+    def _clear_trade_table(self):
+        for i in reversed(range(self.trade_table.count())):
             item = self.trade_table.itemAt(i)
-            if item and item.widget():
-                item.widget().deleteLater()
-                self.trade_table.removeWidget(item.widget())
+            row, col, rowSpan, colSpan = self.trade_table.getItemPosition(i)
+            if row > 0: 
+                widget = item.widget()
+                if widget:
+                    widget.deleteLater()
+                    self.trade_table.removeWidget(widget)
 
     def _add_trade_row(self, trade, row_idx, font_size, color):
-        pic_scale = self.style_manager.get_scaled_value("token_trades", "images_size", 35)
+        image_size = self.style_manager.get_scaled_value("token_trades", "image_size", 60)
         image_label = QLabel()
         image_path = os.path.join("assets/token", f"{trade.tokenAName}.png")
         
-        pixmap = QPixmap(pic_scale, pic_scale)
+        pixmap = QPixmap(image_size, image_size)
         if os.path.exists(image_path):
-            pixmap = QPixmap(image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            pixmap = QPixmap(image_path).scaled(image_size, image_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         image_label.setPixmap(pixmap)
         image_label.setAlignment(Qt.AlignCenter)
         self.trade_table.addWidget(image_label, row_idx, 0)
@@ -104,13 +91,15 @@ class TokenTradesWidget(QWidget):
         else:
             time_ago = f"{round(delta_time / 86400)} days ago"
         
-        action_color = "green" if trade.action.lower() == "buy" else "red" if trade.action.lower() == "sell" else color
+        action_color = "green" if trade.action.lower() == "buy" else "red" if trade.action.lower() == "sell" else "yellow"
         
+        formatted_token_amount = StyleManager.format_number(round(float(trade.tokenAAmount)))
+
         labels = [
             (trade.action, 1, action_color),
-            (f"{round(float(trade.tokenAAmount))}", 2),
-            (f"{round(float(trade.tokenBAmount))}", 3),
-            (f"{round(float(trade.price), 3)}", 4),
+            (f"{formatted_token_amount}", 2),
+            (f"{round(float(trade.tokenBAmount))} ₳", 3),
+            (f"{round(float(trade.price), 4)} ₳", 4),
             (time_ago, 5),
         ]
         
@@ -121,7 +110,7 @@ class TokenTradesWidget(QWidget):
             
             label = QLabel(str(text))
             label.setStyleSheet(f"font-size: {font_size}px; color: {label_color};")
-            label.setAlignment(Qt.AlignCenter)
+            label.setAlignment(Qt.AlignLeft)
             self.trade_table.addWidget(label, row_idx, col_idx)
 
 class LastTrades:

@@ -16,7 +16,7 @@ class WidgetFactory:
         "marketdata": MarketDataWidget,
         "tokens": TokenWidget,
         "portfolio": PortfolioWidget,
-        "last_trades": TokenTradesWidget,
+        "token_trades": TokenTradesWidget,
         "weather": WeatherWidget,
         "token_loans": TokenLoansWidget,
         "rssfeed": MediumRSSWidget,

@@ -13,7 +13,6 @@ class GridWidget(QWidget):
 
     def initUI(self):
         layout = QGridLayout()
-        #layout.setSpacing(10)
 
         self.widgets = []
 
@@ -28,10 +27,11 @@ class GridWidget(QWidget):
                 continue
             widget = WidgetFactory.create_widget(widget_type, section)
             if widget:
-                if col == 0:
+                if col == 0 and widget_type != "welcome" and widget_type != "clock":
                     layout.addWidget(widget, row, col, alignment=Qt.AlignLeft)
                 else:
                     layout.addWidget(widget, row, col, alignment=Qt.AlignRight)
+
                 self.widgets.append(widget)
         self.setLayout(layout)
 

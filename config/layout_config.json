@@ -4,7 +4,7 @@
             "type": "market_data",
             "font_size": 50,
             "color": "white",
-            "refesh": 100000,
+            "refresh": 100000,
             "innerWidgets": [
                 "quote",
                 "activeaddresses",
@@ -15,31 +15,17 @@
             "type": "clock",
             "font_size": 50,
             "color": "white",
-            "refesh": 10000
+            "refresh": 10000
         }
     ],
     "grid_sections": [
         {
-            "type": "portfolio",
+            "type": "rssfeed",
             "font_size": 25,
-            "header_size": 50,
-            "chart_size": [
-                300,
-                180
-            ],
-            "image_size": 75,
+            "name": "@TapInWithTapTools",
+            "feed_num": 3,
             "color": "white",
-            "address": "stake1u9qljmz94se6cfcnqv0yudwsa48pe0yxzuulna3xmnhyaxq84dzc4",
-            "refresh": 100000,
-            "innerWidgets": [
-                "adabalance",
-                "adavalue",
-                "chart",
-                "tokens",
-                "trades",
-                "nfts",
-                "lppos"
-            ],
+            "refesh": 100000,
             "position": [
                 0,
                 0
@@ -47,10 +33,10 @@
         },
         {
             "type": "weather",
-            "font_size": 50,
-            "images_size": 400,
+            "font_size": 70,
+            "image_size": 300,
             "fc_image_size": 130,
-            "fc_front_size": 30,
+            "fc_front_size": 60,
             "color": "white",
             "refresh": 100000,
             "geo": [
@@ -63,20 +49,6 @@
             ],
             "position": [
                 0,
-                1
-            ]
-        },
-        {
-            "type": "token_loans",
-            "font_size": 35,
-            "header_size": 40,
-            "images_size": 40,
-            "color": "white",
-            "count": 10,
-            "ticker": "SNEK",
-            "refesh": 100000,
-            "position": [
-                1,
                 1
             ]
         }

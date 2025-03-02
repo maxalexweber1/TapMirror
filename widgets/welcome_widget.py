@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PyQt5.QtCore import Qt, QTimer
 from datetime import datetime
+from widgets.style_manager import StyleManager
 
 class WelcomeWidget(QWidget):
     def __init__(self, config):
@@ -18,7 +19,7 @@ class WelcomeWidget(QWidget):
         layout = QVBoxLayout()
         font_size = self.style_manager.get_scaled_font_size("welcome")
         color = self.style_manager.get_style("welcome", "color", "white")
-        style = f"font-size: {font_size}px; color: {color};"
+        style = f"font-size: {font_size}px; color: {color}; border: none;"
 
         self.label = QLabel("Loading...")
         self.label.setStyleSheet(style)

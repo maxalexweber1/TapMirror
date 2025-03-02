@@ -57,11 +57,10 @@ class TokenLoansWidget(QWidget):
             self._add_loan_row(loan, row_idx, font_size, color, ticker)
 
     def _clear_table(self):
-    # Löscht alle Widgets, außer die in Zeile 0 (Header)
         for i in reversed(range(self.loan_table.count())):
             item = self.loan_table.itemAt(i)
             row, col, rowSpan, colSpan = self.loan_table.getItemPosition(i)
-            if row > 0:  # Nur Zeilen > 0 löschen
+            if row > 0:
                 widget = item.widget()
                 if widget:
                     widget.deleteLater()
@@ -84,7 +83,6 @@ class TokenLoansWidget(QWidget):
         delta_time = (exp_time - now).total_seconds()
         time_to = f"in {round(delta_time / 86400)} days"
         
-        # Determine color for health value
         health_value = float(loan.health)
         if health_value < 1.2:
             health_color = "red"
@@ -100,8 +98,7 @@ class TokenLoansWidget(QWidget):
             (f"{round(float(loan.debtAmount))} ₳", 2),
             (f"{formatted_collateral} ( {round(float(loan.collateralValue))} ₳ )", 3),
             (f"{round(float(loan.health),2)}", 4, health_color),
-            (f"{loan.protocol}", 5)
-]
+            (f"{loan.protocol}", 5)]
         
         for label_data in labels:
             text = label_data[0]

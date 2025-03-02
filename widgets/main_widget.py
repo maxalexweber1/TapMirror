@@ -16,14 +16,13 @@ class MainWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
-        #layout.setSpacing(10)
 
         self.header_config = self.config.get("header_sections", [])
         self.grid_config = self.config.get("grid_sections", [])
 
         if self.header_config:
             header_frame = QFrame()
-            header_frame.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #1A1A1A")
+            header_frame.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #000000")
             header_layout = QHBoxLayout()
             header_layout.setContentsMargins(0, 0, 0, 0)
 
@@ -37,12 +36,8 @@ class MainWidget(QWidget):
         if self.grid_config:
 
             self.grid_widget = GridWidget(self.grid_config)
-            #self.grid_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            self.grid_widget.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #1A1A1A")
+            self.grid_widget.setStyleSheet("border: 1px solid gray; border-radius: 5px; background-color: #000000")
             layout.addWidget(self.grid_widget)
-           
-
-
         self.setLayout(layout)
 
 

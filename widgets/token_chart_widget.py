@@ -35,12 +35,10 @@ class TokenChartWidget(QLabel):
             label="Close",
             marker="o",
             linestyle="-",
-            lw=5,
+            lw=10,
             solid_capstyle="round",
             solid_joinstyle="round")
         ax.axis('off')
-    
-       
         canvas = FigureCanvas(fig)
         canvas.draw()
         width, height = canvas.get_width_height()

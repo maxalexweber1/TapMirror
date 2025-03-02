@@ -32,7 +32,6 @@ class PortfolioWidget(QWidget):
         chart_l, chart_h = self.config["chart_size"]
         spacing_size = 30
 
-    # Top-Section
         if any(widget in inner_widgets for widget in ["adabalance", "adavalue", "chart"]):
             top_labels_layout = QHBoxLayout()
 
@@ -66,7 +65,7 @@ class PortfolioWidget(QWidget):
                 self.token_table.addWidget(token_header_label, 0, col_idx)
             layout.addLayout(self.token_table)
             layout.setSizeConstraint(QGridLayout.SetMinimumSize)
-            layout.addSpacing(spacing_size)  # Spacer nach Token-Tabelle
+            layout.addSpacing(spacing_size)  
 
         if "lppos" in inner_widgets:
             self.lppos_table = QGridLayout()
@@ -77,7 +76,7 @@ class PortfolioWidget(QWidget):
                 lp_header_label.setAlignment(Qt.AlignCenter)
                 self.lppos_table.addWidget(lp_header_label, 0, col_idx)
             layout.addLayout(self.lppos_table)
-            layout.addSpacing(spacing_size)  # Spacer nach LP-Tabelle
+            layout.addSpacing(spacing_size)  
 
         if "nfts" in inner_widgets:
             self.nft_table = QGridLayout()
@@ -88,7 +87,7 @@ class PortfolioWidget(QWidget):
                 nft_header_label.setAlignment(Qt.AlignCenter)
                 self.nft_table.addWidget(nft_header_label, 0, col_idx)
             layout.addLayout(self.nft_table)
-            layout.addSpacing(spacing_size)  # Spacer nach NFT-Tabelle
+            layout.addSpacing(spacing_size)  
 
         if "trades" in inner_widgets:
             self.trade_table = QGridLayout()
@@ -100,7 +99,6 @@ class PortfolioWidget(QWidget):
                 self.trade_table.addWidget(trade_header_label, 0, col_idx)
             layout.addLayout(self.trade_table)
 
-    # Stretch am Ende, um restlichen Platz zu füllen
         layout.addStretch(1)
 
         self.setLayout(layout)
@@ -116,6 +114,7 @@ class PortfolioWidget(QWidget):
         trades = PortfolioTrades(portfolio_trades)
 
         font_size = self.style_manager.get_scaled_font_size(self.config)
+        print(font_size)
         color = self.style_manager.get_style("portfolio", "color", "white")
 
         if hasattr(self, "balance_label"):
@@ -136,7 +135,7 @@ class PortfolioWidget(QWidget):
             else:    
                 row_idx = 1
                 for token in portfolio.positions_ft:
-                    
+
                     if token.ticker == 'ADA':
                         continue
                     self._add_token_row(token, row_idx, font_size, color)
@@ -256,17 +255,23 @@ class PortfolioWidget(QWidget):
             
             change = round(100- (trade_price / price_now) * 100,2)
 
+            action_color = "green" if trade.action.lower() == "buy" else "red" if trade.action.lower() == "sell" else "yellow"
+
+
         labels = [
-            (trade.action, 0),
+            (trade.action, 0, action_color),
             (formatted_time, 1),
             (trade.tokenAName, 2),
             (f"{round(float(trade.tokenAAmount))}" if trade.tokenAAmount else "N/A", 3),
             (f"{round(float(trade.tokenBAmount))}" if trade.tokenBAmount else "N/A", 4),
             (f"{change} %", 5), 
         ]
-        for text, col_idx in labels:
+        for label_data in labels:
+            text = label_data[0]
+            col_idx = label_data[1]
+            label_color = label_data[2] if len(label_data) > 2 else color
             label = QLabel(str(text))
-            label.setStyleSheet(self.get_style(font_size, color))
+            label.setStyleSheet(f"font-size: {font_size}px; color: {label_color};")
             self.trade_table.addWidget(label, row_idx, col_idx)
 
     def _remove_table_header(self, table):

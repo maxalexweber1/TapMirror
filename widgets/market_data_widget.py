@@ -38,7 +38,7 @@ class MarketDataWidget(QWidget):
             quote_frame.setLayout(quote_layout)
             layout.addWidget(quote_frame)
             self.market_elements["quote"] = quote_label
-            layout.addSpacing(15)  # Spacer zwischen Frames
+            layout.addSpacing(15) 
             
         if "activeaddresses" in inner_widgets:
             active_addr_frame = QFrame()
@@ -52,13 +52,13 @@ class MarketDataWidget(QWidget):
             active_addr_frame.setLayout(active_addr_layout)
             layout.addWidget(active_addr_frame)
             self.market_elements["activeaddresses"] = active_addr_label
-            layout.addSpacing(15)  # Spacer zwischen Frames
+            layout.addSpacing(15)  
 
         if "dexvolume" in inner_widgets:
             dex_vol_frame = QFrame()
             dex_vol_frame.setStyleSheet(frame_style)
             dex_vol_layout = QHBoxLayout()
-            dex_vol_layout.setContentsMargins(5, 5, 5, 5)  # Minimaler Innenrand im Frame
+            dex_vol_layout.setContentsMargins(5, 5, 5, 5)  
             dex_vol_label = QLabel("Loading...")
             dex_vol_label.setStyleSheet(f"font-size: {font_size}px; color: {color}; border: none;")
             dex_vol_label.setAlignment(Qt.AlignCenter)
@@ -66,9 +66,8 @@ class MarketDataWidget(QWidget):
             dex_vol_frame.setLayout(dex_vol_layout)
             layout.addWidget(dex_vol_frame)
             self.market_elements["dexvolume"] = dex_vol_label
-            # Kein Spacer nach dem letzten Element
-
-        layout.setContentsMargins(0, 0, 0, 0)  # Kein Innenrand im Hauptlayout
+         
+        layout.setContentsMargins(0, 0, 0, 0)  
         self.setLayout(layout)
 
     def update_data(self):

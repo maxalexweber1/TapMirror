@@ -10,8 +10,3 @@ if __name__ == "__main__":
     window.setWindowTitle("TapMirror")
     window.showFullScreen()
     sys.exit(app.exec_())
-
-def keyPressEvent(self, event):
-    '''Beende die Anwendung bei Drücken der Esc-Taste'''
-    if event.key() == Qt.Key_Escape:
-        QApplication.quit()

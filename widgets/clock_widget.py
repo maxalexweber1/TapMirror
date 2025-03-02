@@ -19,15 +19,15 @@ class ClockWidget(QWidget):
         layout = QVBoxLayout()
         font_size = self.style_manager.get_scaled_font_size("clock") 
         print(font_size)
-        color = self.style_manager.get_style("clock", "color", "white")  # Farbe aus der config
-        print(color)
-        frame_style = "border: 1px solid gray; border-radius: 5px;"
+        color = self.style_manager.get_style("clock", "color", "white")
+        frame_style = "border: none;"
         style = f"font-size: {font_size}px; color: {color}; border: none;"
 
         clock_frame = QFrame()
         clock_frame.setStyleSheet(frame_style)
         clock_layout = QHBoxLayout()
-        clock_layout.setContentsMargins(5, 5, 5, 5)
+        clock_layout.setContentsMargins(0, 0, 0, 0)
+        clock_layout.setSpacing(0)
         self.label = QLabel("Loading time...")
         self.label.setStyleSheet(style)
         self.label.setAlignment(Qt.AlignCenter)
@@ -35,8 +35,8 @@ class ClockWidget(QWidget):
         clock_frame.setLayout(clock_layout)
 
         layout.addWidget(clock_frame)
-
         self.setLayout(layout)
 
-    def update_data(self, data=None): 
+    def update_data(self, data=None):
+        """Update Time""" 
         self.label.setText(datetime.now().strftime("%H:%M:%S"))

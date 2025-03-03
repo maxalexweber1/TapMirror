@@ -4,7 +4,7 @@
             "type": "market_data",
             "font_size": 30,
             "color": "white",
-            "refesh": 100000,
+            "refresh": 100000,
             "innerWidgets": [
                 "quote",
                 "activeaddresses",
@@ -15,30 +15,17 @@
             "type": "clock",
             "font_size": 30,
             "color": "white",
-            "refesh": 10000
+            "refresh": 10000
         }
     ],
     "grid_sections": [
         {
-            "type": "portfolio",
+            "type": "rssfeed",
             "font_size": 20,
-            "header_size": 30,
-            "chart_size": [
-                200,
-                100
-            ],
-            "image_size": 30,
+            "name": "@TapInWithTapTools",
+            "feed_num": 3,
             "color": "white",
-            "address": "stake1u9xeh3z7t5v3usyfg8gcmwavr472wdltsgf56yk6855vj5qvvx2vf",
-            "refresh": 100000,
-            "innerWidgets": [
-                "adabalance",
-                "adavalue",
-                "chart",
-                "tokens",
-                "trades",
-                "lppos"
-            ],
+            "refesh": 100000,
             "position": [
                 0,
                 0
@@ -46,10 +33,10 @@
         },
         {
             "type": "weather",
-            "font_size": 30,
-            "image_size": 90,
-            "fc_image_size": 60,
-            "fc_front_size": 25,
+            "font_size": 40,
+            "image_size": 100,
+            "fc_image_size": 80,
+            "fc_front_size": 35,
             "color": "white",
             "refresh": 100000,
             "geo": [

@@ -18,7 +18,6 @@ class ClockWidget(QWidget):
     def initUI(self):
         layout = QVBoxLayout()
         font_size = self.style_manager.get_scaled_font_size("clock") 
-        print(font_size)
         color = self.style_manager.get_style("clock", "color", "white")
         frame_style = "border: none;"
         style = f"font-size: {font_size}px; color: {color}; border: none;"

@@ -74,17 +74,16 @@ class StyleManager:
 
         if isinstance(base_value, (int, float)):
             scaling_factor = self.get_scaling_factor()
-            print(scaling_factor)
             return int(base_value * scaling_factor)
         return base_value  
 
     def get_scaled_font_size(self, section_type: str) -> int:
         """Returns the scaled font size for a section."""
-        return self.get_scaled_value(section_type, "font_size", 30)
+        return self.get_scaled_value(section_type, "font_size", 20)
 
     def get_scaled_header_size(self, section_type: str) -> int:
         """Returns the scaled font size for a header section."""
-        return self.get_scaled_value(section_type, "font_size", 35)
+        return self.get_scaled_value(section_type, "font_size", 25)
 
     def get_scaled_image_size(self, section_type: str, key: str = "image_size") -> int:
         """Returns the scaled image size for a section (e.g., image_size, fc_image_size)."""

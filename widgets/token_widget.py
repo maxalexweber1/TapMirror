@@ -81,7 +81,7 @@ class TokenWidget(QWidget):
                     rating_image_path = f"assets/risk_ratings/{token_rating}.png"
 
             if os.path.exists(rating_image_path):
-                pixmap = QPixmap(rating_image_path).scaled(pic_scale, pic_scale, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                pixmap = QPixmap(rating_image_path).scaled(image_size, image_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 risk_label.setPixmap(pixmap)
             else:
                 risk_label.setText("[N/A]")
@@ -100,7 +100,7 @@ class TokenWidget(QWidget):
         # Chart
         if "chart" in inner_widgets:
             chart_widget = TokenChartWidget(self)
-            chart_widget.setFixedSize(round(pic_scale * 1.5), pic_scale)
+            chart_widget.setFixedSize(round(image_size * 1.5), image_size)
             self.token_table.addWidget(chart_widget, row_idx, 5)
             widget_dict["chart"] = chart_widget
 

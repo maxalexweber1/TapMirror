@@ -2,10 +2,15 @@
 QUOTE_CURRENCY = "ADA"
 
 # Api Key
-API_KEY = "***REMOVED***"
+TAP_TOOLS_API_KEY = "Your Taptools API Key"
+XERBERUS_API_KEY = "Your Xerberus API Key"
+USER_EMAIL = 'Mail Address for Xerberus Risk Rating API'
 
 # Quote Currency
 QUOTE_CURRENCY = "ADA"  # Reference currency for market data
+
+
+BASE_URL_RISK_SCORE = 'https://api.xerberus.io/public/v1/risk/score/asset'
 
 # Mapping for Ticker to Token unit (policy + hex name)
 TOKEN_ID_MAPPING = {
@@ -16,10 +21,19 @@ TOKEN_ID_MAPPING = {
     "XER": "6d06570ddd778ec7c0cca09d381eca194e90c8cffa7582879735dbde584552",
     "MIN": "29d222ce763455e3d7a09a665ce554f00ac89d2e99a1a83d267170c64d494e",
     "FLDT": "577f0b1342f8f8f4aed3388b80a8535812950c7a892495c0ecdf0f1e0014df10464c4454",
-    "NVL": "5b26e685cc5c9ad630bde3e3cd48c694436671f3d25df53777ca60ef4e564c"
+    "NVL": "5b26e685cc5c9ad630bde3e3cd48c694436671f3d25df53777ca60ef4e564c",
+    "WMTX": "e5a42a1a1d3d1da71b0449663c32798725888d2eb0843c4dabeca05a576f726c644d6f62696c65546f6b656e58",
+    "iUSD": "f66d78b4a3cb3d37afa0ec36461e51ecbde00f26c8f0a68f94b6988069555344",
+    "DJED": "8db269c3ec630e06ae29f74bc39edd1f87c819f1056206e879a1cd61446a65644d6963726f555344",
+    "USDM": "c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad0014df105553444d",
+    "HOSKY": "a0028f350aaabe0545fdcb56b039bfb08e4bb4d8c4d7c3c7d481c235484f534b59",
+    "FET": "e824c0011176f0926ad51f492bcc63ac6a03a589653520839dc7e3d9464554",
+    "SHEN": "8db269c3ec630e06ae29f74bc39edd1f87c819f1056206e879a1cd615368656e4d6963726f555344",
+    "COPI" : "b6a7467ea1deb012808ef4e87b5ff371e85f7142d7b356a40d9b42a0436f726e75636f70696173205b76696120436861696e506f72742e696f5d",
+    "UDSC": "25c5de5f5b286073c593edfd77b48abc7a48e5a4f3d4cd9d428ff93555534443"
 }
 
-# Mapping for Ticker to Token unit (policy + hex name)
+# Mapping for Ticker to fingerprint id
 TOKEN_PRINT_MAPPING = {
     "LENFI": "asset1khk46tdfsknze9k84ae0ee0k2x8mcwhz93k70d",
     "SNEK": "asset108xu02ckwrfc8qs9d97mgyh4kn8gdu9w8f5sxk",
@@ -28,7 +42,17 @@ TOKEN_PRINT_MAPPING = {
     "XER": "asset1yxmhmq2sqddn4vfl0um2dtlg4r7g2p9u9ed6rc",
     "MIN": "asset1d9v7aptfvpx7we2la8f25kwprkj2ma5rp6uwzv",
     "FLDT": "asset1gayaljphz3tepway6u6ruuty9cee2pj7wch408",
-    "NVL": "asset1jle4pt4cg8264ypx4u45vt99haa6ty3t7naxer"
+    "NVL": "asset1jle4pt4cg8264ypx4u45vt99haa6ty3t7naxer",
+    "WMTX": "asset1l2xup5vr08s07lxg5c4kkj7ur624rv5ayzhyc7",
+    "iUSD": "asset1rm38ahl5n88c3up6r67y7gn0ffxqwuw7thjxqr",
+    "DJED": "asset15f3ymkjafxxeunv5gtdl54g5qs8ty9k84tq94x",
+    "USDM": "asset12ffdj8kk2w485sr7a5ekmjjdyecz8ps2cm5zed",
+    "HOSKY": "asset17q7r59zlc3dgw0venc80pdv566q6yguw03f0d9",
+    "FET": "asset1ggjtz66ww63fkmal5xp4k2zhh4av8eay8t777m",
+    "SHEN": "asset17v9z2sf7v05z6mne4qk0kzlmue5aqxtfxq8jyk",
+    "COPI": "asset1c6uau7pufsxhnm7eg0eerhu4snwfd9sn7kvvvz",
+    "USDC": "asset13suleph5jmpz9j5e4q0kxydesp2aug93mjkvm6"
+
 }
 
 # Token Market Stats

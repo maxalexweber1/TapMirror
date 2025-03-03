@@ -2,7 +2,7 @@ import requests
 import logging
 import pandas as pd
 from config.config import (
-    API_KEY, BASE_URL_TOKEN, BASE_URL_MARKET_STATS, BASE_URL_TOKEN_OHLCV,
+    TAP_TOOLS_API_KEY, BASE_URL_TOKEN, BASE_URL_MARKET_STATS, BASE_URL_TOKEN_OHLCV,
     BASE_URL_QUOTE, BASE_URL_TOKEN_CHG, BASE_URL_GET_PORTFOLIO_POS,
     BASE_URL_GET_PORTFOLIO_TRENDED_VALUE, BASE_URL_GET_PORTFOLIO_TRADES,
     BASE_URL_GET_LAST_TOKEN_TRADES, BASE_URL_TOKEN_LOANS
@@ -12,7 +12,7 @@ from config.config import (
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # API Header
-HEADERS = {"x-api-key": API_KEY}
+HEADERS = {"x-api-key": TAP_TOOLS_API_KEY}
 
 def api_request(url, params=None):
     """Generic function for API requests"""

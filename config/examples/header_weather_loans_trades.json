@@ -1,0 +1,73 @@
+{
+    "header_sections": [
+        {
+            "type": "market_data",
+            "font_size": 20,
+            "color": "white",
+            "refesh": 100000,
+            "innerWidgets": [
+                "quote",
+                "activeaddresses",
+                "dexvolume"
+            ]
+        },
+        {
+            "type": "clock",
+            "font_size": 20,
+            "color": "white",
+            "refesh": 10000
+        }
+    ],
+    "grid_sections": [
+        {
+            "type": "weather",
+            "font_size": 40,
+            "image_size": 100,
+            "fc_image_size": 80,
+            "fc_front_size": 35,
+            "color": "white",
+            "refresh": 100000,
+            "geo": [
+                52.52,
+                13.4
+            ],
+            "innerWidgets": [
+                "current",
+                "forecast"
+            ],
+            "position": [
+                0,
+                1
+            ]
+        },
+        {
+            "type": "token_loans",
+            "font_size": 20,
+            "header_size": 25,
+            "image_size": 25,
+            "color": "white",
+            "count": 10,
+            "ticker": "SNEK",
+            "refesh": 100000,
+            "position": [
+                1,
+                0
+            ]
+        },
+        {
+            "type": "token_trades",
+            "font_size": 20,
+            "header_size": 25,
+            "image_size": 25,
+            "color": "white",
+            "count": 10,
+            "ticker": "SNEK",
+            "refesh": 100000,
+            "value": 1000,
+            "position": [
+                1,
+                1
+            ]
+        }
+    ]
+}

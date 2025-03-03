@@ -20,7 +20,6 @@ class MarketDataWidget(QWidget):
     def initUI(self):
         layout = QHBoxLayout()
         font_size = self.style_manager.get_scaled_font_size("market_data")
-        print(font_size)
         color = self.style_manager.get_style("market_data", "color", "white")
         frame_style = "border: 1px solid gray; border-radius: 5px;"
         

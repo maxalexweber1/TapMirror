@@ -113,8 +113,8 @@ class PortfolioWidget(QWidget):
         portfolio = Portfolio(portfolio_data)
         trades = PortfolioTrades(portfolio_trades)
 
-        font_size = self.style_manager.get_scaled_font_size(self.config)
-        print(font_size)
+        font_size = self.style_manager.get_scaled_font_size("portfolio")
+    
         color = self.style_manager.get_style("portfolio", "color", "white")
 
         if hasattr(self, "balance_label"):
@@ -135,11 +135,11 @@ class PortfolioWidget(QWidget):
             else:    
                 row_idx = 1
                 for token in portfolio.positions_ft:
-
-                    if token.ticker == 'ADA':
-                        continue
-                    self._add_token_row(token, row_idx, font_size, color)
-                    row_idx += 1
+                    if row_idx <= 5:
+                        if token.ticker == 'ADA':
+                            continue
+                        self._add_token_row(token, row_idx, font_size, color)
+                        row_idx += 1
 
         if hasattr(self, "lppos_table"):
             self._clear_table(self.lppos_table)
@@ -186,7 +186,6 @@ class PortfolioWidget(QWidget):
     def _add_token_row(self, token, row_idx, font_size, color):
         """Add a row to the token table."""
         image_scale = self.style_manager.get_scaled_value("portfolio", "image_size", 60)
-        print(image_scale)
         image_label = QLabel()
         image_path = os.path.join("assets/token", f"{token.ticker}.png")
         pixmap = QPixmap(image_scale , image_scale )

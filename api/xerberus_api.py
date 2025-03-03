@@ -1,16 +1,13 @@
 import requests
-
-API_KEY = '***REMOVED***'
-USER_EMAIL = 'max@maxalexweber.de'
-BASE_URL_RISK_SCORE = 'https://api.xerberus.io/public/v1/risk/score/asset'
+from config.config import XERBERUS_API_KEY, USER_EMAIL, BASE_URL_RISK_SCORE
 
 HEADERS = {
-    "x-api-key": API_KEY,
+    "x-api-key": XERBERUS_API_KEY,
     "x-user-email": USER_EMAIL
 }
 
 def get_risk_score(fingerprint):
-    """Holt den Risiko-Score für den angegebenen Fingerprint."""
+    """Gets the risk score for the specified fingerprint"""
     params = {
         "fingerprint": fingerprint
     }
@@ -22,9 +19,9 @@ def get_risk_score(fingerprint):
         if data and data.get("status") == "success":
             return data.get("data")
         else:
-            print("Fehlerhafte Antwortstruktur:", data)
+            print("Incorrect response structure:", data)
             return None
     except requests.exceptions.RequestException as e:
-        print(f"API-Fehler: {e}")
+        print(f"API-Error: {e}")
         return None
 

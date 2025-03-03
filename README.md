@@ -1,13 +1,15 @@
 # TapMirror
-TapMirror is a Smart Mirror application that retrieves Cardano Native Token and Nft data from TapTools (https://www.taptools.io/) API  in real time and displays it as a full-screen application. The solution is developed in Python and uses a GUI library to display the data without a browser
+TapMirror is a Smart Mirror application that retrieves Cardano Native Token and Nft data from TapTools (https://www.taptools.io/) API in real time and displays it as a full-screen application. The solution is developed in Python and uses the PyQt5 library to display the data without a browser. 
 
-## Prerequisites
-- Ubuntu (20.04 LTS or later recommended)
+The ideal hardware setup is a Raspberry Pi or a comparable device running a Linux distribution such as Ubuntu.
+
+# Prerequisites
+- Ubuntu(20.04) or comparable Linux based OS
 - Git (install with `sudo apt install git` if not already installed)
 - Taptools API Key (https://www.taptools.io/openapi/subscription)
 - Xerberus API Key (https://xerberus.gitbook.io/documentation) for Token Risk Ratings (Optional)
 
-## Quick Start
+# Quick Start
 
 1. **Clone the Repository**
    ```bash
@@ -19,24 +21,29 @@ TapMirror is a Smart Mirror application that retrieves Cardano Native Token and 
 3. **Install PyQt5**
    ```bash
     pip3 install PyQt5
-
-    pip3 install feedparser
-    
-4. **Navigate to Main folder**
+4. **Install additional dependencies**
     ```bash
-    cd TapMirror
-5. **Start Application bash: python3 main.py**
+    pip3 install feedparser==6.0.11 matplotlib==3.10.1 pandas==2.2.3 Requests==2.32.3
+5. **Navigate to config folder**
+    ```bash
+    cd TapMirror/config
+6. **Open the config.py file to set your API keys** 
+    ```python
+    TAP_TOOLS_API_KEY = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+5. **Navigate back to Main folder**
+    ```bash
+    cd ..
+6. **Start Application bash: python3 main.py**
     ```bash
     python3 main.py
+# Layout Configuration with layout_config.json file
 
-## Layout Configuration with layout_config.json file
-
-The layout.json file can be used to dynamically customise the layout according to your needs and different screens.
+The config_layout.json file can be used to dynamically customise the layout according to your needs and different screens.
 
 You can Select and copy one of the examples from `examples/config` or change the sections directly in `config/layout_config.json` 
 
 
-### Structure of the layout.config.json file:
+## Structure of the layout.config.json file:
 
 The file needs to be structured in this way: 
     
@@ -46,13 +53,13 @@ The file needs to be structured in this way:
     }
 
 
-### Header Section
+## Header Section
 
-***header_sections:[]*** can contain individual Header Widgets
+***header_sections:[]*** Can contain individual Header Widgets
 
-### Header Widgets
+## Header Widgets
 
-1. **clock as Header Widget**
+## 1. Clock as Header Widget
 - type: "clock" -> widget type 
 - font_size:    -> clock font size
 - refresh:      -> widget update intervall (ms)
@@ -66,14 +73,14 @@ Example:
         "refesh": "10000"      
     }
 
-2. **market_data**
-    - type: "market_data"    -> widget type
-    - font_size:             -> market data font size
-    - refesh:                -> widget update intervall (ms)
-    - **innerWidgets[]:**    -> inner section for the labels to be displayed
-        - quote:               -> ADA Price in $USD
-        - activeaddresses:     -> Number Active Adresses last 24h
-        - dexvolume:           -> Dexvolume 24h
+## 2. Market Data Widget
+- type: "market_data"    -> widget type
+- font_size:             -> market data font size
+- refesh:                -> widget update intervall (ms)
+- **innerWidgets[]:**    -> inner section for the labels to be displayed
+- quote:                    -> ADA Price in $USD
+- activeaddresses:          -> Number Active Adresses last 24h
+- dexvolume:                -> Dexvolume 24h
 
 Example:
 
@@ -87,12 +94,13 @@ Example:
 
 
 
-### Grid Section
+## Grid Section
 
-***grid_sections:[]*** can contain individual Grid Widgets
+***grid_sections:[]*** Can contain individual Grid Widgets
 
-### Grind Widgets
-1. **porfolio**
+## Grind Widgets
+
+## 1. Porfolio Widget
 
  - type: "portfolio"        -> widget type
  - font_size:               -> font size
@@ -113,8 +121,8 @@ Example:
     -  nfts:                    -> nft positions
     -  lppos:                   -> lp positions    
 - **position[]:**           -> position in the grind
-    - col:                      -> colum
-    - row:                      -> row
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
 
 Example:
 
@@ -143,9 +151,9 @@ Example:
                 0,
                 0
             ]
-        },
+        }
 
-2. **token**
+## 2. Token Data Widget
 This section makes it possible to combine different tokens with variable subwidgets such as image,, ticker, price, risk rating, change or chart, which can be arranged and selected as desired
 
 - type: "tokens":           -> widget type   
@@ -165,8 +173,8 @@ This section makes it possible to combine different tokens with variable subwidg
     - TICKER 3,                 -> ticker 3
     - TICKER N,                 -> ticker n ...
 - ***position:[]***         -> position in the grind
-    - col,                      -> colum 
-    - row                       -> row
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
    
 Example:
 
@@ -197,7 +205,7 @@ Example:
             ]
         },
 
-4. **tokenloans**
+## 3. Token Loans Widget
 
 - type: "token_loans"       -> widget type 
 - font_size:                -> token loan table font size
@@ -208,8 +216,8 @@ Example:
 - ticker:                   -> token ticker to show loans from
 - refesh:                   -> update time
 - **position[]:**           -> position inside the grid
-    - col                       -> colum
-    - row                       -> row
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
 
 Example:
 
@@ -228,7 +236,7 @@ Example:
             ]
         },
 
-5. **tokentrades**
+## 4. Token Trades Widget
 
 - type: "last_trades"       -> widget type 
 - font_size:                -> table font size
@@ -240,8 +248,8 @@ Example:
 - refesh:                   -> update time
 - value:                    -> min trade value
 - **position[]:**           -> position inside the grid
-    - col                       -> colum
-    - row                       -> row
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
 
 Example:
 
@@ -261,7 +269,7 @@ Example:
             ]
         }
 
-6. **weather**
+## 5. Weather Widget
 
 - type: "weather"           -> widget type 
 - font_size:                -> wether font size current wether
@@ -272,8 +280,8 @@ Example:
 - geo:                      -> geolocation (lagidtue, ...)
 - refresh:                   -> update time (ms) 
 - **position[]:**           -> position inside the grid
-    - col                       -> colum
-    - row                       -> row
+   - row,                      -> row in grid layout
+   - col                       -> column in grid layout
 
  Example:
 
@@ -290,7 +298,7 @@ Example:
         "position": [ 0, 1 ]
     }
 
-7. **rssfeed**
+## 6. Medium RSS Feed Widget
 
 - type: "rssfeed"           -> widget type 
 - font_size:                -> feed font size
@@ -300,8 +308,8 @@ Example:
 - color:                    -> color
 - refesh:                   -> update time (ms)
 - **position[]:**           -> position inside the grid
-    - col                       -> colum
-    - row                       -> row
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
     
 Example:
 
@@ -316,15 +324,18 @@ Example:
         "position": [ 1, 1 ]
     }
 
-7. **welcome**
+## 7. Welcome Widget
 
-    - type: "welcome"    -> widget type
-    - font_size:         -> font size
-    - refesh:            -> upodate intervall (ms)
-    - **quoats[]:**      ->  quoats
-        - quoat1:           -> first greeting is displayed from x to x o'clock
-        - quoat2:           -> second  greeting is displayed from x to x o'clock
-        - quoat3:           -> third greeting is displayed from x to x o'clock
+- type: "welcome"    -> widget type
+- font_size:         -> font size
+- refesh:            -> upodate intervall (ms)
+- **quoats[]:**      ->  quoats
+    - quoat1:           -> first greeting is displayed from x to x o'clock
+    - quoat2:           -> second  greeting is displayed from x to x o'clock
+    - quoat3:           -> third greeting is displayed from x to x o'clock
+- **position[]:**           -> position inside the grid
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
 
 Example:
 
@@ -334,16 +345,17 @@ Example:
         "color": "white",
         "refesh": 100000,
         "innerWidgets": [ "Good Morning", "Good Afternoon", "Good Evening" ]
+        "position[ 1, 0]
     }
 
-8. **clock as grind widget**
+## 8. Clock as Grid Widget**
 
 - type: "clock" -> widget type 
 - font_size:    -> clock font size
 - refresh:      -> widget update intervall (ms)
-- - **position[]:**           -> position inside the grid
-    - col                       -> colum
-    - row                       -> row
+- **position[]:**           -> position inside the grid
+    - row,                      -> row in grid layout
+    - col                       -> column in grid layout
 
 Example:
 
@@ -356,5 +368,38 @@ Example:
     }
 
 
-### Add new Token
-in config/config.py all tokens that are currently available are listed, if you want to add a new token, it must be added there with its corresponding assetID and under assets/tokens add the corresponding .png image for example (SNEK.png)
+## Add new token with config/config.py
+
+With in config/config.py all tokens that are currently available are listed, if you want to add a new token, it must be added there with its corresponding assetID and under assets/tokens add the corresponding .png image for example (SNEK.png)
+
+### Mapping for Ticker to Token unit (policy + hex name)
+    
+    TOKEN_ID_MAPPING = {
+    "LENFI": "8fef2d34078659493ce161a6c7fba4b56afefa8535296a5743f6958741414441",
+    "SNEK":  "279c909f348e533da5808898f87f9a14bb2c3dfbbacccd631d927a3f534e454b",
+    "IAG":   "5d16cc1a177b5d9ba9cfa9793b07e60f1fb70fea1f8aef064415d114494147",
+    "LQ":    "da8c30857834c6ae7203935b89278c532b3995245295456f993e1d244c51",
+    "XER":   "6d06570ddd778ec7c0cca09d381eca194e90c8cffa7582879735dbde584552",
+    "MIN":   "29d222ce763455e3d7a09a665ce554f00ac89d2e99a1a83d267170c64d494e",
+    "FLDT":  "577f0b1342f8f8f4aed3388b80a8535812950c7a892495c0ecdf0f1e0014df10464c4454",
+    "NVL":   "5b26e685cc5c9ad630bde3e3cd48c694436671f3d25df53777ca60ef4e564c"}
+
+### Mapping for Ticker to fingerprint id (only necessary if you want to include the Xerberus Risk ratings)
+
+    TOKEN_PRINT_MAPPING = {
+        "LENFI":  "asset1khk46tdfsknze9k84ae0ee0k2x8mcwhz93k70d",
+        "SNEK":   "asset108xu02ckwrfc8qs9d97mgyh4kn8gdu9w8f5sxk",
+        "IAG":    "asset1z62wksuv4sjkl24kjgr2sm8tfr4p0cf9p32rca",
+        "LQ":     "asset13epqecv5e2zqgzaxju0x4wqku0tka60wwpc52z",
+        "XER":    "asset1yxmhmq2sqddn4vfl0um2dtlg4r7g2p9u9ed6rc",
+        "MIN":    "asset1d9v7aptfvpx7we2la8f25kwprkj2ma5rp6uwzv",
+        "FLDT":   "asset1gayaljphz3tepway6u6ruuty9cee2pj7wch408",
+        "NVL":    "asset1jle4pt4cg8264ypx4u45vt99haa6ty3t7naxer"}
+
+# Related links
+
+For further questions and more detailed documentation, please visit: 
+
+For more information about Taptools and the API visit: https://www.taptools.io/openapi/subscription
+
+For more information about Risk Ratings and Xerberus visit: https://www.xerberus.io/

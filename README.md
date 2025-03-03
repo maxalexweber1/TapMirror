@@ -398,7 +398,7 @@ With in config/config.py all tokens that are currently available are listed, if 
 
 # Related links
 
-For further questions and more detailed documentation, please visit: 
+For further questions and more detailed documentation, please visit: https://maxalexweber.gitbook.io/tapmirror-a-smart-mirror-interface
 
 For more information about Taptools and the API visit: https://www.taptools.io/openapi/subscription
 
